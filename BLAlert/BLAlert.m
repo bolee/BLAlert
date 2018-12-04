@@ -9,6 +9,9 @@
 #import "BLAlert.h"
 
 @interface BLAlert ()
+@property (nonatomic, strong) UIWindow * prevWindow;
+@property (nonatomic, strong) UIWindow * blWindow;
+@property (nonatomic, strong) UIView * containView;
 @property (nonatomic, strong) UIButton * cancelButton;
 @property (nonatomic, strong) UIButton * submitButton;
 @end
@@ -25,14 +28,26 @@
 
     self.submitButton.frame = CGRectMake(20, 150, 70, 44);
     self.cancelButton.frame = CGRectMake(20, 210, 70, 44);
+
+    UITextField * tf = [[UITextField alloc] initWithFrame:CGRectMake(20, 270, 80, 44)];
+    tf.borderStyle = UITextBorderStyleBezel;
+    [self.view addSubview:tf];
 }
 
 #pragma mark - response
+- (void)show {
+    self.prevWindow = [UIApplication sharedApplication].keyWindow;
+    [self.blWindow setRootViewController:self];
+    [self.blWindow makeKeyAndVisible];
+}
 - (void)submitAction {
-    [self dismissViewControllerAnimated:YES completion:nil];
+
 }
 - (void)cancelAction{
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.view removeFromSuperview];
+    [self removeFromParentViewController];
+    [self.prevWindow makeKeyAndVisible];
+    self.prevWindow = nil;
 }
 
 /*
@@ -46,6 +61,20 @@
 */
 
 #pragma mark - setter&getter
+- (UIWindow *)blWindow {
+    if (!_blWindow) {
+        _blWindow = [[UIWindow alloc] init];
+    }
+    return _blWindow;
+}
+- (UIView *)containView {
+    if (!_containView) {
+        _containView = [[UIView alloc] init];
+        _containView.clipsToBounds = YES;
+        _containView.layer.cornerRadius = 5;
+    }
+    return _containView;
+}
 - (UIButton *)submitButton {
     if (!_submitButton) {
         _submitButton = [[UIButton alloc] init];

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B22C69D21B62DB30032F334 /* BLConfirmAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B22C69C21B62DB30032F334 /* BLConfirmAlert.m */; };
 		9B94D32221B1105C00848EB3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B94D32121B1105C00848EB3 /* AppDelegate.m */; };
 		9B94D32521B1105C00848EB3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B94D32421B1105C00848EB3 /* ViewController.m */; };
 		9B94D32821B1105C00848EB3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B94D32621B1105C00848EB3 /* Main.storyboard */; };
@@ -39,6 +40,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9B22C69A21B61C700032F334 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		9B22C69B21B62DB30032F334 /* BLConfirmAlert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLConfirmAlert.h; sourceTree = "<group>"; };
+		9B22C69C21B62DB30032F334 /* BLConfirmAlert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLConfirmAlert.m; sourceTree = "<group>"; };
 		9B94D31D21B1105C00848EB3 /* BLAlertDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BLAlertDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B94D32021B1105C00848EB3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9B94D32121B1105C00848EB3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -146,6 +150,9 @@
 			children = (
 				9B94D35621B1110800848EB3 /* BLAlert.h */,
 				9B94D35721B1110800848EB3 /* BLAlert.m */,
+				9B22C69A21B61C700032F334 /* README.md */,
+				9B22C69B21B62DB30032F334 /* BLConfirmAlert.h */,
+				9B22C69C21B62DB30032F334 /* BLConfirmAlert.m */,
 			);
 			name = BLAlert;
 			path = ../BLAlert;
@@ -286,6 +293,7 @@
 				9B94D33321B1105E00848EB3 /* main.m in Sources */,
 				9B94D35821B1110800848EB3 /* BLAlert.m in Sources */,
 				9B94D32B21B1105C00848EB3 /* BLAlertDemo.xcdatamodeld in Sources */,
+				9B22C69D21B62DB30032F334 /* BLConfirmAlert.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,7 +401,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -446,7 +454,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -461,13 +469,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NX465R5XFP;
 				INFOPLIST_FILE = BLAlertDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.bobolee.BLAlertDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -478,13 +487,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NX465R5XFP;
 				INFOPLIST_FILE = BLAlertDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.bobolee.BLAlertDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

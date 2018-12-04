@@ -28,7 +28,8 @@
 }
 - (void)showAlert{
     BLAlert * alert = [[BLAlert alloc] init];
-    [self presentViewController:alert animated:YES completion:nil];
+//    [self presentViewController:alert animated:YES completion:nil];
+    [alert show];
 }
 
 

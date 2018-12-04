@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "BLAlert.h"
+#import "BLConfirmAlert.h"
 @interface ViewController ()
 
 @end
@@ -27,7 +27,7 @@
     [showButton addTarget:self action:@selector(showAlert) forControlEvents:UIControlEventTouchUpInside];
 }
 - (void)showAlert{
-    BLAlert * alert = [[BLAlert alloc] init];
+    BLConfirmAlert * alert = [[BLConfirmAlert alloc] init];
 //    [self presentViewController:alert animated:YES completion:nil];
     [alert show];
 }

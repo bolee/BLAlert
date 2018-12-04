@@ -1,0 +1,6 @@
+framework module Pods_BLAlertDemoUITests {
+  umbrella header "Pods-BLAlertDemoUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

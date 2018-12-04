@@ -8,11 +8,16 @@
 // 弹出框界面
 
 #import <UIKit/UIKit.h>
+#import <Masonry/Masonry.h>
+#import "BLMacros.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface BLAlert : UIViewController
+@property (nonatomic, strong) UIView * containView;
+
 - (void)show;
+- (void)dismiss;
 
 @end
 

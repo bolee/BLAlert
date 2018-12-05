@@ -6,13 +6,15 @@ target 'BLAlertDemo' do
   use_frameworks!
 
   # Pods for BLAlertDemo
- pod 'Masonry'
+  pod 'Masonry'
+
+  pod 'Reveal-SDK', :configurations => ['Debug']
 
   target 'BLAlertDemoTests' do
     inherit! :search_paths
-    # Pods for testing	
+    # Pods for testing
   end
-
+  
   target 'BLAlertDemoUITests' do
     inherit! :search_paths
     # Pods for testing

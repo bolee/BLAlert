@@ -23,6 +23,7 @@
 		9B94D35821B1110800848EB3 /* BLAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B94D35721B1110800848EB3 /* BLAlert.m */; };
 		9B94D35921B1110800848EB3 /* BLAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B94D35721B1110800848EB3 /* BLAlert.m */; };
 		9B94D35A21B1110800848EB3 /* BLAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B94D35721B1110800848EB3 /* BLAlert.m */; };
+		9BB0063021B77723005704AF /* UIView+Constraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BB0062F21B77723005704AF /* UIView+Constraint.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,8 @@
 		9B94D34921B1105E00848EB3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9B94D35621B1110800848EB3 /* BLAlert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLAlert.h; sourceTree = "<group>"; };
 		9B94D35721B1110800848EB3 /* BLAlert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLAlert.m; sourceTree = "<group>"; };
+		9BB0062E21B77723005704AF /* UIView+Constraint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Constraint.h"; sourceTree = "<group>"; };
+		9BB0062F21B77723005704AF /* UIView+Constraint.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Constraint.m"; sourceTree = "<group>"; };
 		9C601675E32CDC6B0FE8FB3F /* Pods-BLAlertDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BLAlertDemoTests.debug.xcconfig"; path = "Target Support Files/Pods-BLAlertDemoTests/Pods-BLAlertDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9FB6D45F0E590E42EB7B63DE /* Pods-BLAlertDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BLAlertDemoTests.release.xcconfig"; path = "Target Support Files/Pods-BLAlertDemoTests/Pods-BLAlertDemoTests.release.xcconfig"; sourceTree = "<group>"; };
 		A10BA561FF13DEC33B2B1B40 /* Pods_BLAlertDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BLAlertDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -195,6 +198,8 @@
 				9B22C69B21B62DB30032F334 /* BLConfirmAlert.h */,
 				9B22C69C21B62DB30032F334 /* BLConfirmAlert.m */,
 				9B6B559821B6824D0041B132 /* BLMacros.h */,
+				9BB0062E21B77723005704AF /* UIView+Constraint.h */,
+				9BB0062F21B77723005704AF /* UIView+Constraint.m */,
 			);
 			name = BLAlert;
 			path = ../BLAlert;
@@ -374,10 +379,12 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-BLAlertDemo/Pods-BLAlertDemo-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
+				"${PODS_ROOT}/Reveal-SDK/RevealServer-20/iOS/RevealServer.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RevealServer.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -410,6 +417,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9B94D32521B1105C00848EB3 /* ViewController.m in Sources */,
+				9BB0063021B77723005704AF /* UIView+Constraint.m in Sources */,
 				9B94D32221B1105C00848EB3 /* AppDelegate.m in Sources */,
 				9B94D33321B1105E00848EB3 /* main.m in Sources */,
 				9B94D35821B1110800848EB3 /* BLAlert.m in Sources */,

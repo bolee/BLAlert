@@ -17,18 +17,55 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    UIButton * showButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 100, 150, 44)];
+    UIButton * showButton = [self makeButton:CGRectMake(10, 100, 150, 44) withTitle:@"ConfirmAlert"];
+    [self.view addSubview:showButton];
+    [showButton addTarget:self action:@selector(showConfirm) forControlEvents:UIControlEventTouchUpInside];
+
+    UIButton * alerBtn = [self makeButton:CGRectMake(165, 100, 150, 44) withTitle:@"Alert"];
+    [self.view addSubview:alerBtn];
+    [alerBtn addTarget:self action:@selector(showAlert) forControlEvents:UIControlEventTouchUpInside];
+    alerBtn.center = self.view.center;
+}
+- (UIButton *)makeButton:(CGRect)frame withTitle:(NSString *)title {
+    UIButton * showButton = [[UIButton alloc] initWithFrame:frame];//CGRectMake(10, 100, 150, 44)];
     showButton.layer.borderColor = UIColor.grayColor.CGColor;
     showButton.layer.borderWidth = 1;
     showButton.layer.cornerRadius = 3;
-    [self.view addSubview:showButton];
-    [showButton setTitle:@"Show Alert" forState:UIControlStateNormal];
+    [showButton setTitle:title forState:UIControlStateNormal];
     [showButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
-    [showButton addTarget:self action:@selector(showAlert) forControlEvents:UIControlEventTouchUpInside];
+//    [showButton addTarget:self action:@selector(showAlert) forControlEvents:UIControlEventTouchUpInside];
+    return showButton;
 }
-- (void)showAlert{
+- (void)showAlert {
+    BLAlert * alert = [[BLAlert alloc] init];
+    UILabel * infoLabel = [[UILabel alloc] init];
+    [alert setCustomView:infoLabel];
+    infoLabel.numberOfLines = 0;
+    infoLabel.attributedText = [[NSAttributedString alloc] initWithString:@"这是信息内容.\n这是信息内容.\n这是信息内容.\n这是信息内容.\n这是信息内容.\n这是信息内容.\n" attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:16], NSForegroundColorAttributeName: UIColor.redColor}];
+
+    UIView * superView = infoLabel.superview;
+    infoLabel.constraintBlock = ^(MASConstraintMaker *make) {
+        make.edges.equalTo(superView).insets(UIEdgeInsetsMake(15, 15, 15, 15));
+    };
+    [alert show];
+}
+- (void)showConfirm{
     BLConfirmAlert * alert = [[BLConfirmAlert alloc] init];
-//    [self presentViewController:alert animated:YES completion:nil];
+    alert.backgroundColor = UIColor.clearColor;
+    alert.hiddenTitle = NO;
+    alert.hiddenCancel = NO;
+    alert.containViewProperties = @{kBackgroundColorProperty: UIColorFromRGB(0x262C54), kAlphaProperty: @(0.9)};
+    alert.titleProperties = @{kTextProperty: @"提示", kTextColorProperty: UIColor.whiteColor, kTextFontProperty: [UIFont systemFontOfSize:16]};
+    alert.titleLineProperties = @{kBackgroundColorProperty: UIColorFromRGB(0x333A67)};
+    alert.infoProperties = @{kTextProperty: @"这是信息内容.\n这是信息内容.\n这是信息内容.", kTextColorProperty: UIColor.purpleColor, kTextFontProperty: [UIFont systemFontOfSize:19]};
+    alert.infoLineProperties = @{kBackgroundColorProperty: UIColorFromRGB(0x333A67)};
+    alert.buttonLineProperties = @{kBackgroundColorProperty: UIColorFromRGB(0x333A67)};
+    alert.cancelButtonProperties = @{kBackgroundColorProperty: UIColor.clearColor, kTextProperty: @"以后再说", kTextFontProperty: [UIFont systemFontOfSize:16], kTextColorProperty: UIColorFromRGB(0xBCC2EA)};
+    alert.submitButtonProperties = @{kBackgroundColorProperty: UIColor.clearColor, kTextProperty: @"立即清除", kTextFontProperty: [UIFont systemFontOfSize:16], kTextColorProperty: UIColorFromRGB(0xBCC2EA)};
+//    UILabel * infoLabel = [[UILabel alloc] init];
+//    [alert setCustomView:infoLabel];
+//    infoLabel.numberOfLines = 0;
+//    infoLabel.attributedText = [[NSAttributedString alloc] initWithString:@"这是信息内容.\n这是信息内容.\n这是信息内容.\n这是信息内容.\n这是信息内容.\n这是信息内容.\n" attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:16], NSForegroundColorAttributeName: UIColor.redColor}];
     [alert show];
 }
 

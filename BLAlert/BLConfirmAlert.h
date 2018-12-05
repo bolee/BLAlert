@@ -10,5 +10,15 @@
 #import "BLAlert.h"
 
 @interface BLConfirmAlert : BLAlert
+@property (nonatomic, assign) BOOL hiddenTitle;
+@property (nonatomic, assign) BOOL hiddenCancel;
+
+@property (nonatomic, strong) NSDictionary * titleProperties;
+@property (nonatomic, strong) NSDictionary * titleLineProperties;
+@property (nonatomic, strong) NSDictionary * infoProperties;
+@property (nonatomic, strong) NSDictionary * infoLineProperties;
+@property (nonatomic, strong) NSDictionary * cancelButtonProperties;
+@property (nonatomic, strong) NSDictionary * submitButtonProperties;
+@property (nonatomic, strong) NSDictionary * buttonLineProperties;
 
 @end

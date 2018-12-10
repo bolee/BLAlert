@@ -9,9 +9,18 @@
 
 #import "BLAlert.h"
 
+typedef NS_ENUM(NSInteger, ButtonType) {
+    ButtonTypeSubmit    =   1,
+    ButtonTypeCancel    =   2,
+    ButtonTypeCustom    =   0,
+};
+
+typedef BOOL(^ButtonClickBlock)(UIButton * button, ButtonType type);
+
 @interface BLConfirmAlert : BLAlert
 @property (nonatomic, assign) BOOL hiddenTitle;
 @property (nonatomic, assign) BOOL hiddenCancel;
+@property (nonatomic, copy) ButtonClickBlock buttonResponse;
 
 @property (nonatomic, strong) NSDictionary * titleProperties;
 @property (nonatomic, strong) NSDictionary * titleLineProperties;

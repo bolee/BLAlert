@@ -37,7 +37,7 @@
 }
 - (void)layoutView {
     [super layoutView];
-    if (!self.hiddenTitle) {
+    if (!self.hiddenTitle) {                                                                                                                                                                  
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.top.right.equalTo(self.containView);
             make.height.mas_equalTo(50);
@@ -117,9 +117,27 @@
 }
 - (void)submitAction {
 //    [self dismiss];
+    if (self.buttonResponse) {
+        if (self.buttonResponse(self.submitButton, ButtonTypeSubmit)) {
+            [self dismiss];
+        } else {
+
+        }
+    } else {
+        [self dismiss];
+    }
 }
 - (void)cancelAction{
-    [self dismiss];
+//    [self dismiss];
+    if (self.buttonResponse) {
+        if (self.buttonResponse(self.cancelButton, ButtonTypeCancel)) {
+            [self dismiss];
+        } else {
+
+        }
+    } else {
+        [self dismiss];
+    }
 }
 
 #pragma mark -- setter&getter

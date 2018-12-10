@@ -18,9 +18,16 @@ NSString * const kTextAligmentProperty = @"textAlignment";
 NSString * const kAttributeTextProperty = @"attributedText";
 NSString * const kNumberOfLinesProperty = @"numberOfLines";
 
+NSString * const kDismissNotification = @"blalert.dismiss.notification";
+
+CGFloat const kAnimationShowDuration = 0.2;
+CGFloat const kAnimationHiddenDuration = 0.3;
+
 @interface BLAlert ()<UIGestureRecognizerDelegate>
 @property (nonatomic, strong) UIWindow * prevWindow;
 @property (nonatomic, strong) UIWindow * blWindow;
+@property (nonatomic, strong) UINavigationController * navController;
+@property (nonatomic, strong) UIViewController * viewController;
 @property (nonatomic, strong, readwrite) UIView * containView;
 @property (nonatomic, strong, readwrite) UIView * customView;
 @end
@@ -31,6 +38,7 @@ NSString * const kNumberOfLinesProperty = @"numberOfLines";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismiss) name:kDismissNotification object:nil];
     [self.view addSubview:self.containView];
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismiss)];
     tapGesture.delegate = self;
@@ -59,10 +67,78 @@ NSString * const kNumberOfLinesProperty = @"numberOfLines";
 }
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [UIView animateWithDuration:0.2 animations:^{
+    switch (self.showAnimation) {
+        case BLAlertShowAnimationFadeIn:
+            [self showAnimationFadeIn];
+            break;
+        case BLAlertShowAnimationSlideInFromTop:
+            [self showAnimationSlideInFromTop];
+            break;
+        case BLAlertShowAnimationSlideInFromBottom:
+            [self showAnimationSlideInFromBottom];
+            break;
+        case BLAlertShowAnimationSlideInFromLeft:
+            [self showAnimationSlideInFromLeft];
+            break;
+        case BLAlertShowAnimationSlideInFromRight:
+            [self showAnimationSlideInFromRight];
+            break;
+        case BLAlertShowAnimationSlideInFromCenter:
+            [self showAnimationSlideInFromCenter];
+            break;
+        default:
+            [self showAnimationNone];
+            break;
+    }
+}
+
+#pragma mark -- ShowAnimation
+- (void)showAnimationNone{
+    self.containView.center = self.view.center;
+}
+- (void)showAnimationFadeIn {
+    self.containView.alpha = 0;
+    self.containView.center = self.view.center;
+    [UIView animateWithDuration:kAnimationShowDuration animations:^{
+        self.containView.alpha = 1;
+    }];
+}
+- (void)showAnimationSlideInFromTop {
+    [UIView animateWithDuration:kAnimationShowDuration animations:^{
         self.containView.center = self.view.center;
     }];
 }
+
+- (void)showAnimationSlideInFromBottom {
+    self.containView.center = CGPointMake(self.view.center.x, self.view.center.y * 3);
+    [UIView animateWithDuration:kAnimationShowDuration animations:^{
+        self.containView.center = self.view.center;
+    }];
+}
+
+- (void)showAnimationSlideInFromLeft {
+    self.containView.center = CGPointMake(-self.view.center.x, self.view.center.y);
+    [UIView animateWithDuration:kAnimationShowDuration animations:^{
+        self.containView.center = self.view.center;
+    }];
+}
+
+- (void)showAnimationSlideInFromRight {
+    self.containView.center = CGPointMake(self.view.center.x * 3, self.view.center.y);
+    [UIView animateWithDuration:kAnimationShowDuration animations:^{
+        self.containView.center = self.view.center;
+    }];
+}
+
+- (void)showAnimationSlideInFromCenter {
+    self.containView.center = self.view.center;
+    CGRect rect = self.containView.frame;
+    self.containView.frame = CGRectMake(self.view.center.x, self.view.center.y, 1, 1);
+    [UIView animateWithDuration:kAnimationShowDuration animations:^{
+        self.containView.frame = rect;
+    }];
+}
+
 #pragma mark -- UIGestureRecognizerDelegate
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     if ([touch.view isDescendantOfView:self.containView]) {
@@ -74,27 +150,92 @@ NSString * const kNumberOfLinesProperty = @"numberOfLines";
 - (void)show {
     [self layoutView];
     self.prevWindow = [UIApplication sharedApplication].keyWindow;
-    [self.blWindow.rootViewController addChildViewController:self];
-    [self.blWindow.rootViewController.view addSubview:self.view];
+    [self.viewController addChildViewController:self];
+    [self.viewController.view addSubview:self.view];
     [self.blWindow makeKeyAndVisible];
 }
 
 - (void)dismiss {
-    [UIView animateWithDuration:0.2 animations:^{
-        self.containView.center = CGPointMake(kBLScreenWidth / 2.0, kBLScreenHeight + self.containView.frame.size.height);
-    }];
-    [UIView animateWithDuration:0.3 animations:^{
+    switch (self.hiddenAnimation) {
+        case BLAlertHiddenAnimationFadeOut:
+            [self dismissAnimationFadOut];
+            break;
+        case BLAlertHiddenAnimationSlideToTop:
+            [self dismissAnimationToTop];
+            break;
+        case BLAlertHiddenAnimationSlideToBottom:
+            [self dismissAnimationToBottom];
+            break;
+        case BLAlertHiddenAnimationSlideToLeft:
+            [self dismissAnimationToLeft];
+            break;
+        case BLAlertHiddenAnimationSlideToRight:
+            [self dismissAnimationToRight];
+            break;
+        case BLAlertHiddenAnimationSlideToCenter:
+            [self dismissAnimationToCenter];
+            break;
+        default:
+            [self dismissAnimationNone];
+            break;
+    }
+}
+
+#pragma mark -- dismiss animation
+- (void)dismissAnimationNone {
+    [UIView animateWithDuration:kAnimationHiddenDuration animations:^{
         self.view.alpha = 0.0;
     } completion:^(BOOL finished) {
         [self.view removeFromSuperview];
         [self removeFromParentViewController];
         [self.prevWindow makeKeyAndVisible];
         self.prevWindow = nil;
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:kDismissNotification object:nil];
     }];
 }
+- (void)dismissAnimationFadOut {
+    [UIView animateWithDuration:kAnimationShowDuration animations:^{
+        self.containView.alpha = 0;
+    }];
+    [self dismissAnimationNone];
+}
+- (void)dismissAnimationToTop {
+    [UIView animateWithDuration:kAnimationShowDuration animations:^{
+        self.containView.center = CGPointMake(self.view.center.x, -self.view.center.y);
+    }];
+    [self dismissAnimationNone];
+}
+- (void)dismissAnimationToBottom {
+    [UIView animateWithDuration:kAnimationShowDuration animations:^{
+        self.containView.center = CGPointMake(kBLScreenWidth / 2.0, kBLScreenHeight + self.containView.frame.size.height);
+    }];
+    [self dismissAnimationNone];
+}
+- (void)dismissAnimationToLeft {
+    [UIView animateWithDuration:kAnimationShowDuration animations:^{
+        self.containView.center = CGPointMake(-self.view.center.x, self.view.center.y);
+    }];
+    [self dismissAnimationNone];
+}
+- (void)dismissAnimationToRight {
+    [UIView animateWithDuration:kAnimationShowDuration animations:^{
+        self.containView.center = CGPointMake(2 * self.view.center.x, self.view.center.y);
+    }];
+    [self dismissAnimationNone];
+}
+- (void)dismissAnimationToCenter {
+    [UIView animateWithDuration:kAnimationShowDuration animations:^{
+        self.containView.frame = CGRectMake(self.view.center.x, self.view.center.y, 1, 1);
+    }];
+    [self dismissAnimationNone];
+}
+
 - (void)setCustomView:(UIView *)customView {
     _customView = customView;
     [self.containView addSubview:customView];
+}
+- (UIViewController *)rootViewController {
+    return self.viewController;
 }
 
 #pragma mark - setter&getter
@@ -103,11 +244,26 @@ NSString * const kNumberOfLinesProperty = @"numberOfLines";
         _blWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         _blWindow.windowLevel = UIWindowLevelAlert;
         _blWindow.accessibilityViewIsModal = YES;
-        _blWindow.rootViewController = [[UIViewController alloc] init];
+        _blWindow.rootViewController = self.needNavigation ? self.navController : self.viewController;
         _blWindow.backgroundColor = UIColor.clearColor;
     }
     return _blWindow;
 }
+- (UIViewController *)viewController {
+    if (!_viewController) {
+        _viewController = [[UIViewController alloc] init];
+    }
+    return _viewController;
+}
+
+- (UINavigationController *)navController {
+    if (!_navController) {
+        _navController = [[UINavigationController alloc] initWithRootViewController:self.viewController];
+        [_navController setNavigationBarHidden:YES animated:NO];
+    }
+    return _navController;
+}
+
 - (UIView *)containView {
     if (!_containView) {
         _containView = [[UIView alloc] init];

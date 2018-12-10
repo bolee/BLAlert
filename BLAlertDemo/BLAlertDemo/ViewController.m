@@ -8,6 +8,8 @@
 
 #import "ViewController.h"
 #import "BLConfirmAlert.h"
+#import "ChildViewController.h"
+
 @interface ViewController ()
 
 @end
@@ -19,11 +21,13 @@
     // Do any additional setup after loading the view, typically from a nib.
     UIButton * showButton = [self makeButton:CGRectMake(10, 100, 150, 44) withTitle:@"ConfirmAlert"];
     [self.view addSubview:showButton];
-    [showButton addTarget:self action:@selector(showConfirm) forControlEvents:UIControlEventTouchUpInside];
+    showButton.tag = 1;
+    [showButton addTarget:self action:@selector(showConfirm:) forControlEvents:UIControlEventTouchUpInside];
 
     UIButton * alerBtn = [self makeButton:CGRectMake(165, 100, 150, 44) withTitle:@"Alert"];
     [self.view addSubview:alerBtn];
-    [alerBtn addTarget:self action:@selector(showAlert) forControlEvents:UIControlEventTouchUpInside];
+    alerBtn.tag = 2;
+    [alerBtn addTarget:self action:@selector(showConfirm:) forControlEvents:UIControlEventTouchUpInside];
     alerBtn.center = self.view.center;
 }
 - (UIButton *)makeButton:(CGRect)frame withTitle:(NSString *)title {
@@ -49,7 +53,7 @@
     };
     [alert show];
 }
-- (void)showConfirm{
+- (void)showConfirm:(UIButton *)button{
     BLConfirmAlert * alert = [[BLConfirmAlert alloc] init];
     alert.backgroundColor = UIColor.clearColor;
     alert.hiddenTitle = NO;
@@ -66,8 +70,35 @@
 //    [alert setCustomView:infoLabel];
 //    infoLabel.numberOfLines = 0;
 //    infoLabel.attributedText = [[NSAttributedString alloc] initWithString:@"这是信息内容.\n这是信息内容.\n这是信息内容.\n这是信息内容.\n这是信息内容.\n这是信息内容.\n" attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:16], NSForegroundColorAttributeName: UIColor.redColor}];
+    __weak BLConfirmAlert * weakAlert = alert;
+    alert.buttonResponse = ^BOOL(UIButton *button, ButtonType type) {
+        if (ButtonTypeSubmit == type) {
+            [self navChild:[weakAlert rootViewController] withAlert:weakAlert];
+            return NO;
+        }
+        return YES;
+    };
+    alert.needNavigation = 1 == button.tag ? YES : NO;
+    static NSInteger index = 0;
+    alert.showAnimation = index;
+    alert.hiddenAnimation = index;
+    index++;
     [alert show];
 }
 
+- (void)navChild:(UIViewController *)vc withAlert:(BLConfirmAlert *)alert{
+    ChildViewController * childVC = [[ChildViewController alloc] init];
+    if (vc.navigationController) {
+        [vc.navigationController pushViewController:childVC animated:YES];
+    } else {
+        UINavigationController * nav = [[UINavigationController alloc] initWithRootViewController:childVC];
+        [vc presentViewController:nav animated:YES completion:nil];
+    }
+    childVC.CompleteBlock = ^{
+//        [alert dismiss];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDismissNotification object:nil];
+    };
+    
+}
 
 @end

@@ -23,6 +23,8 @@
 		9B94D35821B1110800848EB3 /* BLAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B94D35721B1110800848EB3 /* BLAlert.m */; };
 		9B94D35921B1110800848EB3 /* BLAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B94D35721B1110800848EB3 /* BLAlert.m */; };
 		9B94D35A21B1110800848EB3 /* BLAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B94D35721B1110800848EB3 /* BLAlert.m */; };
+		9BA5AE4621BE08EB00AB501E /* ChildViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BA5AE4521BE08EB00AB501E /* ChildViewController.m */; };
+		9BA5AE4921BE4C1200AB501E /* UIViewController+Navigation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BA5AE4821BE4C1200AB501E /* UIViewController+Navigation.m */; };
 		9BB0063021B77723005704AF /* UIView+Constraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BB0062F21B77723005704AF /* UIView+Constraint.m */; };
 /* End PBXBuildFile section */
 
@@ -73,6 +75,10 @@
 		9B94D34921B1105E00848EB3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9B94D35621B1110800848EB3 /* BLAlert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLAlert.h; sourceTree = "<group>"; };
 		9B94D35721B1110800848EB3 /* BLAlert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLAlert.m; sourceTree = "<group>"; };
+		9BA5AE4421BE08EB00AB501E /* ChildViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChildViewController.h; sourceTree = "<group>"; };
+		9BA5AE4521BE08EB00AB501E /* ChildViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChildViewController.m; sourceTree = "<group>"; };
+		9BA5AE4721BE4C1200AB501E /* UIViewController+Navigation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Navigation.h"; sourceTree = "<group>"; };
+		9BA5AE4821BE4C1200AB501E /* UIViewController+Navigation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Navigation.m"; sourceTree = "<group>"; };
 		9BB0062E21B77723005704AF /* UIView+Constraint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Constraint.h"; sourceTree = "<group>"; };
 		9BB0062F21B77723005704AF /* UIView+Constraint.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Constraint.m"; sourceTree = "<group>"; };
 		9C601675E32CDC6B0FE8FB3F /* Pods-BLAlertDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BLAlertDemoTests.debug.xcconfig"; path = "Target Support Files/Pods-BLAlertDemoTests/Pods-BLAlertDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -167,6 +173,10 @@
 				9B94D33121B1105E00848EB3 /* Info.plist */,
 				9B94D33221B1105E00848EB3 /* main.m */,
 				9B94D32921B1105C00848EB3 /* BLAlertDemo.xcdatamodeld */,
+				9BA5AE4421BE08EB00AB501E /* ChildViewController.h */,
+				9BA5AE4521BE08EB00AB501E /* ChildViewController.m */,
+				9BA5AE4721BE4C1200AB501E /* UIViewController+Navigation.h */,
+				9BA5AE4821BE4C1200AB501E /* UIViewController+Navigation.m */,
 			);
 			path = BLAlertDemo;
 			sourceTree = "<group>";
@@ -416,9 +426,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BA5AE4921BE4C1200AB501E /* UIViewController+Navigation.m in Sources */,
 				9B94D32521B1105C00848EB3 /* ViewController.m in Sources */,
 				9BB0063021B77723005704AF /* UIView+Constraint.m in Sources */,
 				9B94D32221B1105C00848EB3 /* AppDelegate.m in Sources */,
+				9BA5AE4621BE08EB00AB501E /* ChildViewController.m in Sources */,
 				9B94D33321B1105E00848EB3 /* main.m in Sources */,
 				9B94D35821B1110800848EB3 /* BLAlert.m in Sources */,
 				9B94D32B21B1105C00848EB3 /* BLAlertDemo.xcdatamodeld in Sources */,

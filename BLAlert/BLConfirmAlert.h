@@ -9,6 +9,11 @@
 
 #import "BLAlert.h"
 
+//
+extern CGFloat const kTitleSubmitHeight;
+extern CGFloat const kTitleHeight;
+extern CGFloat const kSubmitHeight;
+
 typedef NS_ENUM(NSInteger, ButtonType) {
     ButtonTypeSubmit    =   1,
     ButtonTypeCancel    =   2,
@@ -29,5 +34,7 @@ typedef BOOL(^ButtonClickBlock)(UIButton * button, ButtonType type);
 @property (nonatomic, strong) NSDictionary * cancelButtonProperties;
 @property (nonatomic, strong) NSDictionary * submitButtonProperties;
 @property (nonatomic, strong) NSDictionary * buttonLineProperties;
+@property (nonatomic, assign) CGFloat titleHeight;
+@property (nonatomic, assign) CGFloat submitHeight;
 
 @end

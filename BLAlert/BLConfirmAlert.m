@@ -8,6 +8,10 @@
 
 #import "BLConfirmAlert.h"
 
+CGFloat const kTitleHeight = 50;
+CGFloat const kSubmitHeight = 44;
+CGFloat const kTitleSubmitHeight = kTitleHeight + kSubmitHeight;
+
 @interface BLConfirmAlert ()
 @property (nonatomic, strong) UILabel * titleLabel;
 @property (nonatomic, strong) UILabel * titleLineLabel;
@@ -19,7 +23,26 @@
 @end
 
 @implementation BLConfirmAlert
-
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        [self initParams];
+    }
+    return self;
+}
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self initParams];
+    }
+    return self;
+}
+- (void)initParams {
+    [super initParams];
+    self.titleHeight = kTitleHeight;
+    self.submitHeight = kSubmitHeight;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -40,7 +63,7 @@
     if (!self.hiddenTitle) {                                                                                                                                                                  
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.top.right.equalTo(self.containView);
-            make.height.mas_equalTo(50);
+            make.height.mas_equalTo(self.titleHeight);
         }];
         [self.titleLineLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.equalTo(self.containView);
@@ -52,20 +75,20 @@
     if (!self.hiddenCancel) {
         [self.buttonLineLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self.containView.mas_bottom);
-            make.height.mas_equalTo(44);
+            make.height.mas_equalTo(self.submitHeight);
             make.centerX.equalTo(self.containView);
             make.width.mas_equalTo(1);
         }];
         [self.cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.bottom.equalTo(self.containView);
             make.right.equalTo(self.buttonLineLabel.mas_left);
-            make.height.mas_equalTo(44);
+            make.height.mas_equalTo(self.submitHeight);
         }];
     }
     [self.submitButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.bottom.equalTo(self.containView);
         make.left.equalTo(self.hiddenCancel ? self.containView.mas_left : self.buttonLineLabel.mas_right);
-        make.height.equalTo(self.hiddenCancel ? @(44) : self.cancelButton);
+        make.height.equalTo(self.hiddenCancel ? @(self.submitHeight) : self.cancelButton);
     }];
 
     [self.infoLineLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -74,34 +97,40 @@
         make.height.mas_equalTo(1);
     }];
     if (self.customView) {
-        [self.customView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.containView).offset(FitWidth(15));
-            make.right.equalTo(self.containView).offset(-FitWidth(15));
-            make.top.equalTo(self.hiddenTitle ? self.containView.mas_top : self.titleLineLabel.mas_bottom).offset(FitHeight(20));
-            make.bottom.equalTo(self.infoLineLabel.mas_top).offset(-FitHeight(20));
-        }];
+        if (self.customView.constraintBlock) {
+            [self.customView mas_remakeConstraints:self.customView.constraintBlock];
+        } else {
+            [self.customView mas_remakeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(self.containView).offset(BL_ADAPTATION(self.containPaddingLeft));
+                make.right.equalTo(self.containView).offset(-BL_ADAPTATION(self.containPaddingRight));
+                make.top.equalTo(self.hiddenTitle ? self.containView.mas_top : self.titleLineLabel.mas_bottom).offset(BL_ADAPTATION(self.containPaddingTop));
+                make.bottom.equalTo(self.infoLineLabel.mas_top).offset(-BL_ADAPTATION(self.containPaddingBottom));
+            }];
+        }
     } else {
-        CGRect rect = [self.infoLabel.text boundingRectWithSize:CGSizeMake(kBLScreenWidth - 4 * FitWidth(15), CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesDeviceMetrics attributes:@{NSFontAttributeName: self.infoLabel.font} context:nil];
-        CGFloat height = 50 + 44 + rect.size.height + FitHeight(20) * 2;
-        if (self.infoLabel.text.length <= 0) {
-            height = 50 + 44;
+        CGFloat height = ( self.hiddenTitle ? 0 : self.titleHeight ) + self.submitHeight;
+        if (self.infoLabel.text.length <= 0 && self.infoLabel.attributedText.length <= 0) {
+            //没有内容
+            self.titleLineLabel.alpha = 0;
             [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(self.containView).offset(FitWidth(15));
-                make.right.equalTo(self.containView).offset(-FitWidth(15));
+                make.left.equalTo(self.containView).offset(BL_ADAPTATION(self.leftMargin));
+                make.right.equalTo(self.containView).offset(-BL_ADAPTATION(self.rightMargin));
                 make.top.equalTo(self.hiddenTitle ? self.containView.mas_top : self.titleLineLabel.mas_bottom);
                 make.bottom.equalTo(self.infoLineLabel.mas_top);
             }];
         } else {
+            CGRect rect = [self.infoLabel.text boundingRectWithSize:CGSizeMake(kBLScreenWidth -  BL_ADAPTATION(self.leftMargin + self.rightMargin + self.containPaddingLeft + self.containPaddingRight), CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: self.infoLabel.font} context:nil];
+            height += self.containPaddingTop + self.containPaddingBottom + ceilf(rect.size.height) + 2;
             [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(self.containView).offset(FitWidth(15));
-                make.right.equalTo(self.containView).offset(-FitWidth(15));
-                make.top.equalTo(self.hiddenTitle ? self.containView.mas_top : self.titleLineLabel.mas_bottom).offset(FitHeight(20));
-                make.bottom.equalTo(self.infoLineLabel.mas_top).offset(-FitHeight(20));
+                make.left.equalTo(self.containView).offset(BL_ADAPTATION(self.containPaddingLeft));
+                make.right.equalTo(self.containView).offset(-BL_ADAPTATION(self.containPaddingRight));
+                make.top.equalTo(self.hiddenTitle ? self.containView.mas_top : self.titleLineLabel.mas_bottom).offset(BL_ADAPTATION(self.containPaddingTop));
+                make.bottom.equalTo(self.infoLineLabel.mas_top).offset(-BL_ADAPTATION(self.containPaddingBottom));
             }];
         }
         [self.containView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.view).offset( FitWidth(15) );
-            make.right.equalTo(self.view).offset(-FitWidth(15));
+            make.left.equalTo(self.view).offset(BL_ADAPTATION(self.leftMargin) );
+            make.right.equalTo(self.view).offset(-BL_ADAPTATION(self.rightMargin));
             make.centerY.equalTo(self.view).offset(-kBLScreenHeight);
             make.height.mas_equalTo(height);
         }];

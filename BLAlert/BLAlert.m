@@ -6,6 +6,7 @@
 //  Copyright © 2018 Lee. All rights reserved.
 //
 #import "BLAlert.h"
+
 NSString * const kAlphaProperty = @"alpha";
 NSString * const kBackgroundColorProperty = @"backgroundColor";
 NSString * const kCornerRadiusProperty = @"layer.cornerRadius";
@@ -23,6 +24,14 @@ NSString * const kDismissNotification = @"blalert.dismiss.notification";
 CGFloat const kAnimationShowDuration = 0.2;
 CGFloat const kAnimationHiddenDuration = 0.3;
 
+CGFloat const kLeftMargin = 15;
+CGFloat const kRightMargin = 15;
+
+CGFloat const kContainPaddingTop = 10;
+CGFloat const kContainPaddingBottom = 10;
+CGFloat const kContainPaddingLeft = 15;
+CGFloat const kContainPaddingRight = 15;
+
 @interface BLAlert ()<UIGestureRecognizerDelegate>
 @property (nonatomic, strong) UIWindow * prevWindow;
 @property (nonatomic, strong) UIWindow * blWindow;
@@ -33,6 +42,33 @@ CGFloat const kAnimationHiddenDuration = 0.3;
 @end
 
 @implementation BLAlert
+
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        [self initParams];
+    }
+    return self;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [self initParams];
+    }
+    return self;
+}
+
+- (void)initParams {
+    self.leftMargin = kLeftMargin;
+    self.rightMargin = kRightMargin;
+    self.containPaddingTop = kContainPaddingTop;
+    self.containPaddingBottom = kContainPaddingBottom;
+    self.containPaddingLeft = kContainPaddingLeft;
+    self.containPaddingRight = kContainPaddingRight;
+    self.containHeight = kBLScreenHeight / 3.0;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -49,10 +85,10 @@ CGFloat const kAnimationHiddenDuration = 0.3;
         [self.containView mas_makeConstraints:self.containView.constraintBlock];
     } else {
         [self.containView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.view).offset( FitWidth(15) );
-            make.right.equalTo(self.view).offset(-FitWidth(15));
+            make.left.equalTo(self.view).offset( BL_ADAPTATION(self.leftMargin) );
+            make.right.equalTo(self.view).offset(-BL_ADAPTATION(self.rightMargin));
             make.centerY.equalTo(self.view).offset(-kBLScreenHeight);
-            make.height.mas_equalTo(kBLScreenHeight * 1 / 3.0);
+            make.height.mas_equalTo(self.containHeight);
         }];
     }
     if (self.customView) {
@@ -153,6 +189,11 @@ CGFloat const kAnimationHiddenDuration = 0.3;
     [self.viewController addChildViewController:self];
     [self.viewController.view addSubview:self.view];
     [self.blWindow makeKeyAndVisible];
+
+    // blur
+    UIVisualEffectView * efView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
+    efView.frame = self.view.bounds;
+    [self.view insertSubview:efView belowSubview:self.containView];
 }
 
 - (void)dismiss {
@@ -282,6 +323,8 @@ CGFloat const kAnimationHiddenDuration = 0.3;
     self.view.backgroundColor = backgroundColor;
 }
 - (void)setAlpha:(CGFloat)alpha {
-    self.view.alpha = alpha;
+//    self.view.alpha = alpha;
+    //not affect child view alpha
+    self.view.backgroundColor = [self.view.backgroundColor colorWithAlphaComponent:alpha];
 }
 @end

@@ -14,20 +14,29 @@
 
 NS_ASSUME_NONNULL_BEGIN
 // KVC
-UIKIT_EXTERN NSString * const kAlphaProperty;
-UIKIT_EXTERN NSString * const kBackgroundColorProperty;
-UIKIT_EXTERN NSString * const kCornerRadiusProperty;
-UIKIT_EXTERN NSString * const kBorderWidthProperty;
-UIKIT_EXTERN NSString * const kBorderColorProperty;
-UIKIT_EXTERN NSString * const kTextProperty;
-UIKIT_EXTERN NSString * const kTextColorProperty;
-UIKIT_EXTERN NSString * const kTextFontProperty;
-UIKIT_EXTERN NSString * const kTextAligmentProperty;
-UIKIT_EXTERN NSString * const kAttributeTextProperty;
-UIKIT_EXTERN NSString * const kNumberOfLinesProperty;
+extern NSString * const kAlphaProperty;
+extern NSString * const kBackgroundColorProperty;
+extern NSString * const kCornerRadiusProperty;
+extern NSString * const kBorderWidthProperty;
+extern NSString * const kBorderColorProperty;
+extern NSString * const kTextProperty;
+extern NSString * const kTextColorProperty;
+extern NSString * const kTextFontProperty;
+extern NSString * const kTextAligmentProperty;
+extern NSString * const kAttributeTextProperty;
+extern NSString * const kNumberOfLinesProperty;
 
 // notification
-UIKIT_EXTERN NSString * const kDismissNotification;
+extern NSString * const kDismissNotification;
+
+//
+extern CGFloat const kLeftMargin;   //contain左边距
+extern CGFloat const kRightMargin;  //contain右边距
+// 内容区域padding，如果是包含title和submit则指的是title和submit中间的内容区域
+extern CGFloat const kContainPaddingTop; //
+extern CGFloat const kContainPaddingBottom;//
+extern CGFloat const kContainPaddingLeft;//
+extern CGFloat const kContainPaddingRight;//
 
 //
 typedef NS_ENUM(NSInteger, BLAlertShowAnimation) {
@@ -51,6 +60,7 @@ typedef NS_ENUM(NSInteger, BLAlertHiddenAnimation) {
 
 @interface BLAlert : UIViewController
 @property (nonatomic, strong, readonly) UIView * containView;
+@property (nonatomic, assign) CGFloat containHeight;
 @property (nonatomic, assign) BOOL needNavigation;
 @property (nonatomic, strong, readwrite) NSDictionary * containViewProperties;
 @property (nonatomic, strong, readonly) UIView * customView;
@@ -58,7 +68,15 @@ typedef NS_ENUM(NSInteger, BLAlertHiddenAnimation) {
 @property (nonatomic, assign) CGFloat alpha;
 @property (nonatomic, assign) BLAlertShowAnimation showAnimation;
 @property (nonatomic, assign) BLAlertHiddenAnimation hiddenAnimation;
+@property (nonatomic, assign) CGFloat leftMargin;
+@property (nonatomic, assign) CGFloat rightMargin;
+@property (nonatomic, assign) CGFloat containPaddingTop;
+@property (nonatomic, assign) CGFloat containPaddingBottom;
+@property (nonatomic, assign) CGFloat containPaddingLeft;
+@property (nonatomic, assign) CGFloat containPaddingRight;
 
+
+- (void)initParams;
 - (void)setCustomView:(UIView *)customView;
 - (void)layoutView;
 - (void)show;

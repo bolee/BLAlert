@@ -21,7 +21,6 @@ alpha:1.0]
 #define WEAKSELF __weak typeof(self) weakSelf = self;
 #define STRONGSELF typeof(weakSelf) __strong strongSelf = weakSelf;
 
-#define FitWidth(width) ceilf(kBLScreenWidth / 375.0 * width)
-#define FitHeight(height) ceilf(kBLScreenHeight / 667.0 * height)
+#define BL_ADAPTATION(wh) ceilf(kBLScreenWidth / 375.0 * wh)
 
 #endif /* BLMacros_h */

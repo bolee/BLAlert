@@ -189,6 +189,7 @@ CGFloat const kContainPaddingRight = 15;
     [self.viewController addChildViewController:self];
     [self.viewController.view addSubview:self.view];
     [self.blWindow makeKeyAndVisible];
+
     // blur
     UIVisualEffectView * efView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
     efView.frame = self.view.bounds;

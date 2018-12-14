@@ -37,7 +37,7 @@
     [passwd addTarget:self action:@selector(showPass) forControlEvents:UIControlEventTouchUpInside];
     passwd.backgroundColor = UIColor.redColor;
     
-//    [self addLabelLineh];
+    [self addLabelLineh];
 }
 - (void)addLabelLineh {
     UILabel *label = [[UILabel alloc] init];

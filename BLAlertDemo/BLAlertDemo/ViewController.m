@@ -100,7 +100,7 @@
     infoLabel.numberOfLines = 0;
     NSAttributedString * attr = [[NSAttributedString alloc] initWithString:@"这是信息内容.\n这是信息内容.\n这是信息内容.\n这是信息内容.\n这是信息内容.\n这是信息内容." attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:16], NSForegroundColorAttributeName: UIColor.redColor}];
     infoLabel.attributedText = attr;
-    CGRect rect = [attr boundingRectWithSize:CGSizeMake(kBLScreenWidth - (kLeftMargin + kRightMargin + kContainPaddingTop + kContainPaddingBottom), CGFLOAT_MAX) options:NSStringDrawingUsesFontLeading|NSStringDrawingUsesLineFragmentOrigin context:nil];
+    CGRect rect = [attr boundingRectWithSize:CGSizeMake(kBLScreenWidth - (BL_ADAPTATION(kLeftMargin) + BL_ADAPTATION(kRightMargin) + BL_ADAPTATION(kContainPaddingTop) + BL_ADAPTATION(kContainPaddingBottom)), CGFLOAT_MAX) options:NSStringDrawingUsesFontLeading|NSStringDrawingUsesLineFragmentOrigin context:nil];
     UIView * superView = infoLabel.superview;
     infoLabel.backgroundColor = UIColor.clearColor;// .purpleColor;
     infoLabel.alpha = 0.3;
@@ -110,7 +110,7 @@
         make.top.equalTo(superView).offset(BL_ADAPTATION(kContainPaddingTop));
         make.bottom.equalTo(superView).offset(-BL_ADAPTATION(kContainPaddingBottom));
     };
-    alert.containHeight = ceilf(rect.size.height) + kContainPaddingBottom + kContainPaddingTop;
+    alert.containHeight = ceilf(rect.size.height) + BL_ADAPTATION(kContainPaddingBottom) + BL_ADAPTATION(kContainPaddingTop) + 2 * kLineHeight;
     alert.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.5];//]UIColor.blackColor;
 //    alert.alpha = 0.1;
     alert.containViewProperties = @{kBackgroundColorProperty: UIColor.purpleColor, kAlphaProperty: @(1)};
@@ -124,8 +124,9 @@
     alert.containViewProperties = @{kBackgroundColorProperty: UIColorFromRGB(0x262C54), kAlphaProperty: @(0.9)};
     alert.titleProperties = @{kTextProperty: @"提示", kTextColorProperty: UIColor.whiteColor, kTextFontProperty: [UIFont systemFontOfSize:16]};
     alert.titleLineProperties = @{kBackgroundColorProperty: UIColorFromRGB(0x333A67)};
-//    alert.infoProperties = @{kTextProperty: @"这是信息内容.这是信息内容.这是信息内容.", kTextColorProperty: UIColor.purpleColor, kTextFontProperty: [UIFont systemFontOfSize:19], kTextAligmentProperty: @(NSTextAlignmentCenter)};
-    alert.infoProperties = @{kAttributeTextProperty: [[NSAttributedString alloc] initWithString:@"这是信息内容.这是信息内容.这是信息内容." attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:19], NSForegroundColorAttributeName: UIColor.yellowColor}], kTextAligmentProperty: @(NSTextAlignmentCenter)};
+    alert.infoProperties = @{kTextProperty: @"这是信息内容.这是信息内容.这是信息内容.", kTextColorProperty: UIColor.purpleColor, kTextFontProperty: [UIFont systemFontOfSize:19], kTextAligmentProperty: @(NSTextAlignmentCenter)};
+//    alert.infoProperties = @{kAttributeTextProperty: [[NSAttributedString alloc] initWithString:@"这是信息内容.这是信息内容.这是信息内容." attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:19], NSForegroundColorAttributeName: UIColor.yellowColor}], kTextAligmentProperty: @(NSTextAlignmentCenter)};
+    
     alert.infoLineProperties = @{kBackgroundColorProperty: UIColorFromRGB(0x333A67)};
     alert.buttonLineProperties = @{kBackgroundColorProperty: UIColorFromRGB(0x333A67)};
     alert.cancelButtonProperties = @{kBackgroundColorProperty: UIColor.clearColor, kTextProperty: @"以后再说", kTextFontProperty: [UIFont systemFontOfSize:16], kTextColorProperty: UIColorFromRGB(0xBCC2EA)};

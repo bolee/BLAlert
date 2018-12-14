@@ -9,6 +9,12 @@
 #ifndef BLMacros_h
 #define BLMacros_h
 
+#ifdef DEBUG
+    #define BLLog(fmt, ...) NSLog(fmt, ##__VA_ARGS__)
+#else
+    #define BLLog(...)
+#endif
+
 #define kBLScreenWidth [UIScreen mainScreen].applicationFrame.size.width
 #define kBLScreenHeight [UIScreen mainScreen].applicationFrame.size.height
 

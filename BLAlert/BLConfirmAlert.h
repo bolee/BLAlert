@@ -13,6 +13,7 @@
 extern CGFloat const kTitleSubmitHeight;
 extern CGFloat const kTitleHeight;
 extern CGFloat const kSubmitHeight;
+extern CGFloat const kLineHeight;
 
 typedef NS_ENUM(NSInteger, ButtonType) {
     ButtonTypeSubmit    =   1,
@@ -36,5 +37,5 @@ typedef BOOL(^ButtonClickBlock)(UIButton * button, ButtonType type);
 @property (nonatomic, strong) NSDictionary * buttonLineProperties;
 @property (nonatomic, assign) CGFloat titleHeight;
 @property (nonatomic, assign) CGFloat submitHeight;
-
+@property (nonatomic, assign) CGFloat lineHeight;
 @end

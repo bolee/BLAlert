@@ -11,6 +11,7 @@
 CGFloat const kTitleHeight = 50;
 CGFloat const kSubmitHeight = 44;
 CGFloat const kTitleSubmitHeight = kTitleHeight + kSubmitHeight;
+CGFloat const kLineHeight = 1;
 
 @interface BLConfirmAlert ()
 @property (nonatomic, strong) UILabel * titleLabel;
@@ -42,6 +43,7 @@ CGFloat const kTitleSubmitHeight = kTitleHeight + kSubmitHeight;
     [super initParams];
     self.titleHeight = kTitleHeight;
     self.submitHeight = kSubmitHeight;
+    self.lineHeight = kLineHeight;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -68,7 +70,7 @@ CGFloat const kTitleSubmitHeight = kTitleHeight + kSubmitHeight;
         [self.titleLineLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.equalTo(self.containView);
             make.top.equalTo(self.titleLabel.mas_bottom);
-            make.height.mas_equalTo(1);
+            make.height.mas_equalTo(self.lineHeight);
         }];
     }
 
@@ -77,7 +79,7 @@ CGFloat const kTitleSubmitHeight = kTitleHeight + kSubmitHeight;
             make.bottom.equalTo(self.containView.mas_bottom);
             make.height.mas_equalTo(self.submitHeight);
             make.centerX.equalTo(self.containView);
-            make.width.mas_equalTo(1);
+            make.width.mas_equalTo(self.lineHeight);
         }];
         [self.cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.bottom.equalTo(self.containView);
@@ -94,7 +96,7 @@ CGFloat const kTitleSubmitHeight = kTitleHeight + kSubmitHeight;
     [self.infoLineLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.containView);
         make.bottom.equalTo(self.submitButton.mas_top);
-        make.height.mas_equalTo(1);
+        make.height.mas_equalTo(self.lineHeight);
     }];
     if (self.customView) {
         if (self.customView.constraintBlock) {
@@ -119,8 +121,10 @@ CGFloat const kTitleSubmitHeight = kTitleHeight + kSubmitHeight;
                 make.bottom.equalTo(self.infoLineLabel.mas_top);
             }];
         } else {
-            CGRect rect = [self.infoLabel.text boundingRectWithSize:CGSizeMake(kBLScreenWidth -  BL_ADAPTATION(self.leftMargin + self.rightMargin + self.containPaddingLeft + self.containPaddingRight), CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: self.infoLabel.font} context:nil];
-            height += self.containPaddingTop + self.containPaddingBottom + ceilf(rect.size.height) + 2;
+            // must add separate
+            CGFloat margin = BL_ADAPTATION(self.leftMargin) + BL_ADAPTATION(self.rightMargin) + BL_ADAPTATION(self.containPaddingLeft) + BL_ADAPTATION(self.containPaddingRight);
+            CGRect rect = [self.infoLabel.text boundingRectWithSize:CGSizeMake(kBLScreenWidth - margin, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: self.infoLabel.font} context:nil];
+            height += BL_ADAPTATION(self.containPaddingTop) + BL_ADAPTATION(self.containPaddingBottom) + ceilf(rect.size.height) + 2 * self.lineHeight;
             [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(self.containView).offset(BL_ADAPTATION(self.containPaddingLeft));
                 make.right.equalTo(self.containView).offset(-BL_ADAPTATION(self.containPaddingRight));

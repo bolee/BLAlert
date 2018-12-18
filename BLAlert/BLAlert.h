@@ -11,6 +11,7 @@
 #import <Masonry/Masonry.h>
 #import "BLMacros.h"
 #import "UIView+Constraint.h"
+#import "NSObject+KVC.h"
 
 NS_ASSUME_NONNULL_BEGIN
 // KVC
@@ -74,7 +75,6 @@ typedef NS_ENUM(NSInteger, BLAlertHiddenAnimation) {
 @property (nonatomic, assign) CGFloat containPaddingBottom;
 @property (nonatomic, assign) CGFloat containPaddingLeft;
 @property (nonatomic, assign) CGFloat containPaddingRight;
-
 
 - (void)initParams;
 - (void)setCustomView:(UIView *)customView;

@@ -235,22 +235,22 @@ CGFloat const kLineHeight = 1;
 }
 - (void)setTitleProperties:(NSDictionary *)titleProperties {
     for (NSString * key in titleProperties) {
-        [self.titleLabel setValue:titleProperties[key] forKey:key];
+        [self.titleLabel setValue:titleProperties[key] forKeyOrPath:key];
     }
 }
 - (void)setTitleLineProperties:(NSDictionary *)titleLineProperties {
     for (NSString * key in titleLineProperties) {
-        [self.titleLineLabel setValue:titleLineProperties[key] forKey:key];
+        [self.titleLineLabel setValue:titleLineProperties[key] forKeyOrPath:key];
     }
 }
 - (void)setInfoProperties:(NSDictionary *)infoProperties {
     for (NSString * key in infoProperties) {
-        [self.infoLabel setValue:infoProperties[key] forKey:key];
+        [self.infoLabel setValue:infoProperties[key] forKeyOrPath:key];
     }
 }
 - (void)setInfoLineProperties:(NSDictionary *)infoLineProperties {
     for (NSString * key in infoLineProperties) {
-        [self.infoLineLabel setValue:infoLineProperties[key] forKey:key];
+        [self.infoLineLabel setValue:infoLineProperties[key] forKeyOrPath:key];
     }
 }
 - (void)setCancelButtonProperties:(NSDictionary *)cancelButtonProperties {
@@ -262,7 +262,7 @@ CGFloat const kLineHeight = 1;
         } else if ([key isEqualToString:kTextFontProperty]) {
             self.cancelButton.titleLabel.font = cancelButtonProperties[key];
         } else {
-            [self.cancelButton setValue:cancelButtonProperties[key] forKey:key];
+            [self.cancelButton setValue:cancelButtonProperties[key] forKeyOrPath:key];
         }
     }
 }
@@ -275,13 +275,13 @@ CGFloat const kLineHeight = 1;
         } else if ([key isEqualToString:kTextFontProperty]) {
             self.submitButton.titleLabel.font = submitButtonProperties[key];
         } else {
-            [self.submitButton setValue:submitButtonProperties[key] forKey:key];
+            [self.submitButton setValue:submitButtonProperties[key] forKeyOrPath:key];
         }
     }
 }
 - (void)setButtonLineProperties:(NSDictionary *)buttonLineProperties {
     for (NSString * key in buttonLineProperties) {
-        [self.buttonLineLabel setValue:buttonLineProperties[key] forKey:key];
+        [self.buttonLineLabel setValue:buttonLineProperties[key] forKeyOrPath:key];
     }
 }
 @end

@@ -191,9 +191,9 @@ CGFloat const kContainPaddingRight = 15;
     [self.blWindow makeKeyAndVisible];
 
     // blur background view
-    UIVisualEffectView * efView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
-    efView.frame = self.view.bounds;
-    [self.view insertSubview:efView belowSubview:self.containView];
+//    UIVisualEffectView * efView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
+//    efView.frame = self.view.bounds;
+//    [self.view insertSubview:efView belowSubview:self.containView];
 }
 
 - (void)dismiss {
@@ -316,7 +316,7 @@ CGFloat const kContainPaddingRight = 15;
 }
 - (void)setContainViewProperties:(NSDictionary *)containViewProperties {
     for (NSString * key in containViewProperties) {
-        [self.containView setValue:containViewProperties[key] forKey:key];
+        [self.containView setValue:containViewProperties[key] forKeyOrPath:key];
     }
 }
 - (void)setBackgroundColor:(UIColor *)backgroundColor {

@@ -61,6 +61,7 @@ CGFloat const kContainPaddingRight = 15;
 }
 
 - (void)initParams {
+    self.needNavigation = NO;
     self.leftMargin = kLeftMargin;
     self.rightMargin = kRightMargin;
     self.containPaddingTop = kContainPaddingTop;
@@ -287,6 +288,7 @@ CGFloat const kContainPaddingRight = 15;
         _blWindow.accessibilityViewIsModal = YES;
         _blWindow.rootViewController = self.needNavigation ? self.navController : self.viewController;
         _blWindow.backgroundColor = UIColor.clearColor;
+        _blWindow.accessibilityViewIsModal = YES;
     }
     return _blWindow;
 }

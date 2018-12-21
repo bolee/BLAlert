@@ -9,7 +9,6 @@
 #import "BLEditAlert.h"
 
 @interface BLEditAlert ()
-@property (nonatomic, strong) UIView * txtContainView;
 @property (nonatomic, strong) UITextField * txtField;
 @property (nonatomic, strong) UITextView * txtView;
 
@@ -26,17 +25,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self setCustomView:self.txtContainView];
-    [self.txtContainView addSubview:BLEditTypeTextField == self.editType ? self.txtField : self.txtView];
+    [self setCustomView:BLEditTypeTextField == self.editType ? self.txtField : self.txtView];
 }
 
 - (void)layoutView {
     [super layoutView];
-    if (BLEditTypeTextField == self.editType) {
-        [self.txtField mas_makeConstraints:self.txtField.constraintBlock];
-    } else {
-        [self.txtView mas_makeConstraints:self.txtView.constraintBlock];
-    }
+//    if (BLEditTypeTextField == self.editType) {
+//        [self.txtField mas_makeConstraints:self.txtField.constraintBlock];
+//    } else {
+//        [self.txtView mas_makeConstraints:self.txtView.constraintBlock];
+//    }
 
     // WARN: must remake,fix containView will move up in iOS 9+ with edit modal
     [self.containView mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -60,10 +58,6 @@
 - (UITextField *)txtField {
     if (!_txtField) {
         _txtField = [[UITextField alloc] init];
-        WEAKSELF
-        _txtField.constraintBlock = ^(MASConstraintMaker *make) {
-            make.edges.equalTo(weakSelf.txtContainView);
-        };
     }
     return _txtField;
 }
@@ -71,17 +65,7 @@
 - (UITextView *)txtView {
     if (!_txtView) {
         _txtView = [[UITextView alloc] init];
-        WEAKSELF
-        _txtView.constraintBlock = ^(MASConstraintMaker *make) {
-            make.edges.equalTo(weakSelf.txtContainView);
-        };
     }
     return _txtView;
-}
-- (UIView *)txtContainView {
-    if (!_txtContainView) {
-        _txtContainView = [[UIView alloc] init];
-    }
-    return _txtContainView;
 }
 @end

@@ -14,6 +14,7 @@
 		9B05C32321BF6FE700041BF5 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 9B05C32221BF6FE700041BF5 /* index.html */; };
 		9B22516221C8A1DD008FE37C /* NSObject+KVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B22516121C8A1DD008FE37C /* NSObject+KVC.m */; };
 		9B22C69D21B62DB30032F334 /* BLConfirmAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B22C69C21B62DB30032F334 /* BLConfirmAlert.m */; };
+		9B236C9721CCBBEB0060AAF0 /* BLEditAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B236C9621CCBBEB0060AAF0 /* BLEditAlert.m */; };
 		9B94D32221B1105C00848EB3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B94D32121B1105C00848EB3 /* AppDelegate.m */; };
 		9B94D32521B1105C00848EB3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B94D32421B1105C00848EB3 /* ViewController.m */; };
 		9B94D32821B1105C00848EB3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B94D32621B1105C00848EB3 /* Main.storyboard */; };
@@ -63,6 +64,8 @@
 		9B22C69A21B61C700032F334 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9B22C69B21B62DB30032F334 /* BLConfirmAlert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLConfirmAlert.h; sourceTree = "<group>"; };
 		9B22C69C21B62DB30032F334 /* BLConfirmAlert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLConfirmAlert.m; sourceTree = "<group>"; };
+		9B236C9521CCBBEB0060AAF0 /* BLEditAlert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLEditAlert.h; sourceTree = "<group>"; };
+		9B236C9621CCBBEB0060AAF0 /* BLEditAlert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLEditAlert.m; sourceTree = "<group>"; };
 		9B6B559821B6824D0041B132 /* BLMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BLMacros.h; sourceTree = "<group>"; };
 		9B94D31D21B1105C00848EB3 /* BLAlertDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BLAlertDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B94D32021B1105C00848EB3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -223,6 +226,8 @@
 				9B05C32021BF50B500041BF5 /* BLPasswdAlert.m */,
 				9B22516021C8A1DD008FE37C /* NSObject+KVC.h */,
 				9B22516121C8A1DD008FE37C /* NSObject+KVC.m */,
+				9B236C9521CCBBEB0060AAF0 /* BLEditAlert.h */,
+				9B236C9621CCBBEB0060AAF0 /* BLEditAlert.m */,
 			);
 			name = BLAlert;
 			path = ../BLAlert;
@@ -402,11 +407,13 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-BLAlertDemo/Pods-BLAlertDemo-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/IQKeyboardManager/IQKeyboardManager.framework",
 				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
 				"${PODS_ROOT}/Reveal-SDK/RevealServer-20/iOS/RevealServer.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManager.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RevealServer.framework",
 			);
@@ -448,6 +455,7 @@
 				9BA5AE4621BE08EB00AB501E /* ChildViewController.m in Sources */,
 				9B94D33321B1105E00848EB3 /* main.m in Sources */,
 				9B94D35821B1110800848EB3 /* BLAlert.m in Sources */,
+				9B236C9721CCBBEB0060AAF0 /* BLEditAlert.m in Sources */,
 				9B94D32B21B1105C00848EB3 /* BLAlertDemo.xcdatamodeld in Sources */,
 				9B05C32121BF50B500041BF5 /* BLPasswdAlert.m in Sources */,
 				9B22C69D21B62DB30032F334 /* BLConfirmAlert.m in Sources */,

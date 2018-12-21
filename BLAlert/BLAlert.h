@@ -6,7 +6,6 @@
 //  Copyright © 2018 Lee. All rights reserved.
 //
 // 弹出框界面
-
 #import <UIKit/UIKit.h>
 #import <Masonry/Masonry.h>
 #import "BLMacros.h"
@@ -80,6 +79,7 @@ typedef NS_ENUM(NSInteger, BLAlertHiddenAnimation) {
 - (void)setCustomView:(UIView *)customView;
 - (void)layoutView;
 - (void)show;
+- (void)showWithController:(UIViewController *)controller;
 - (void)dismiss;
 - (UIViewController *)rootViewController;
 

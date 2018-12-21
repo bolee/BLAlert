@@ -1,20 +1,24 @@
 PODS:
+  - IQKeyboardManager (6.2.0)
   - Masonry (1.1.0)
   - Reveal-SDK (20)
 
 DEPENDENCIES:
+  - IQKeyboardManager
   - Masonry
   - Reveal-SDK
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - IQKeyboardManager
     - Masonry
     - Reveal-SDK
 
 SPEC CHECKSUMS:
+  IQKeyboardManager: 6194101620b73af5e67900b8f89707a99de0b804
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   Reveal-SDK: 43206a57f575632fd304e85385cc259b5d359e32
 
-PODFILE CHECKSUM: bbf523586a18e23ef58b7c017ef13aadbcae861f
+PODFILE CHECKSUM: cd6061ac99c6cecc42c210a99e4b64ecb971e5fa
 
 COCOAPODS: 1.6.0.beta.2

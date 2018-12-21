@@ -10,5 +10,6 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://gitlab.33.cn/iOSDemo/FZMAlert.git", :tag => s.version}
   s.source_files = "BLALert/*.{h,m}"
   s.requires_arc = true
-  s.dependency       'Masonry'
+  s.dependency       'Masonry' 
+  s.dependency	     'IQKeyboardManager'
 end

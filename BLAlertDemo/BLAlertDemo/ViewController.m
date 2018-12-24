@@ -131,7 +131,8 @@
     return showButton;
 }
 - (void)showEdit {
-    BLEditAlert * alert = [[BLEditAlert alloc] init];
+    BLEditAlert * alert = [[BLEditAlert alloc] initWithConfiguration:@{@"containView.backgroundColor": UIColor.brownColor}];
+//    [alert setValue:UIColor.brownColor forKeyPath:@"containView.backgroundColor"];
     alert.editType = BLEditTypeTextView;
     alert.editProperties = @{kBorderWidthProperty: @(1), kBorderColorProperty: (id)UIColor.grayColor.CGColor, @"placeholderText": @"thsi is placer holder text!", @"placeholderTextColor": UIColor.redColor, kTextColorProperty: UIColor.purpleColor};
 //    alert.txtField.keyboardType = UIKeyboardTypeNumberPad;

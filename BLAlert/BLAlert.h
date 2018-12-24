@@ -79,6 +79,7 @@ typedef void(^Completention)(void);
 @property (nonatomic, assign) CGFloat containPaddingRight;
 @property (nonatomic, copy) Completention dismissComplete;
 
+- (instancetype)initWithConfiguration:(NSDictionary *)confiure;
 - (void)initParams;
 - (void)setCustomView:(UIView *)customView;
 - (void)layoutView;

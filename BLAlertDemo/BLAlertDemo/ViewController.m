@@ -5,22 +5,50 @@
 //  Created by lee on 2018/11/30.
 //  Copyright © 2018 Lee. All rights reserved.
 //
+#import <objc/runtime.h>
 #import "ViewController.h"
 #import "BLPasswdAlert.h"
 #import "BLEditAlert.h"
 #import "ChildViewController.h"
 
 @interface ViewController ()
-
+@property (nonatomic, strong) UITextField * txtFd;
 @end
 
 @implementation ViewController
 
+- (void)setbg {
+    self.view.backgroundColor = UIColor.blueColor;
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    
+
+    self.txtFd = [[UITextField alloc] init];
+    [self.view addSubview:self.txtFd];
+    self.txtFd.backgroundColor = UIColor.blueColor;
+    self.txtFd.frame = CGRectMake(170, 100, 150, 44);
+
+//    unsigned int outCount = 0;
+//    Method * meths = class_copyMethodList([UITextField class], &outCount);
+//    for (int i = 0; i < outCount; i++) {
+//        Method mh = meths[i];
+//        SEL sl = method_getName(mh);
+//        NSLog(@"mname:%@", NSStringFromSelector(sl));
+//    }
+
+//    [self.txtFd setValue:UIColor.greenColor forKey:@"backgroundColor"];
+//    [self.txtFd setValue:@(UIReturnKeyNext) forKey:@"returnKeyType"];
+//    NSLog(@"==============%@", [self.txtFd valueForKey:@"UIFieldEditor"]);
+
+//    [tfd setValue:@(UIReturnKeyNext) forKeyPath:@""];
+
+//    tfd.returnKeyType = UIReturnKeyNext;
+//    [tfd setReturnKeyType:UIReturnKeyNext];
+//    [tfd performSelector:NSSelectorFromString(@"setReturnKeyType:") withObject:[NSNumber numberWithInt:UIReturnKeyNext]];
+//    [self performSelector:NSSelectorFromString(@"setDstr:") withObject:@(UIReturnKeyNext)];
+
     UIButton *showButton = [self makeButton:CGRectMake(10, 100, 150, 44) withTitle:@"ConfirmAlert"];
     [self.view addSubview:showButton];
     showButton.tag = 1;
@@ -106,6 +134,8 @@
     BLEditAlert * alert = [[BLEditAlert alloc] init];
     alert.editType = BLEditTypeTextField;
     alert.editProperties = @{kBorderWidthProperty: @(1), kBorderColorProperty: (id)UIColor.grayColor.CGColor};
+//    alert.txtField.keyboardType = UIKeyboardTypeNumberPad;
+    alert.txtField.returnKeyType = UIReturnKeyDone;
     [alert show];
 }
 - (void)showPass

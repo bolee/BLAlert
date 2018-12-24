@@ -15,6 +15,9 @@ typedef NS_ENUM(NSInteger, BLEditType) {
 };
 
 @interface BLEditAlert : BLConfirmAlert
+@property (nonatomic, strong) UITextField * txtField;
+@property (nonatomic, strong) UITextView * txtView;
+
 @property (nonatomic, assign) BLEditType editType;
 @property (nonatomic, copy) NSString * editText;
 @property (nonatomic, copy) NSDictionary * editProperties;

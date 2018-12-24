@@ -8,12 +8,6 @@
 
 #import "BLEditAlert.h"
 
-@interface BLEditAlert ()
-@property (nonatomic, strong) UITextField * txtField;
-@property (nonatomic, strong) UITextView * txtView;
-
-@end
-
 @implementation BLEditAlert
 
 - (void)initParams {
@@ -30,12 +24,6 @@
 
 - (void)layoutView {
     [super layoutView];
-//    if (BLEditTypeTextField == self.editType) {
-//        [self.txtField mas_makeConstraints:self.txtField.constraintBlock];
-//    } else {
-//        [self.txtView mas_makeConstraints:self.txtView.constraintBlock];
-//    }
-
     // WARN: must remake,fix containView will move up in iOS 9+ with edit modal
     [self.containView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(self.view);

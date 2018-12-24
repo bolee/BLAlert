@@ -6,7 +6,9 @@
 //  Copyright © 2018 Lee. All rights reserved.
 //
 
+#import <objc/runtime.h>
 #import "NSObject+KVC.h"
+#import "BLMacros.h"
 
 @implementation NSObject (KVC)
 - (void)setValue:(id)value forKeyOrPath:(NSString *)key {

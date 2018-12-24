@@ -50,9 +50,9 @@
     return _txtField;
 }
 
-- (UITextView *)txtView {
+- (YYTextView *)txtView {
     if (!_txtView) {
-        _txtView = [[UITextView alloc] init];
+        _txtView = [[YYTextView alloc] init];
     }
     return _txtView;
 }

@@ -132,10 +132,13 @@
 }
 - (void)showEdit {
     BLEditAlert * alert = [[BLEditAlert alloc] init];
-    alert.editType = BLEditTypeTextField;
-    alert.editProperties = @{kBorderWidthProperty: @(1), kBorderColorProperty: (id)UIColor.grayColor.CGColor};
+    alert.editType = BLEditTypeTextView;
+    alert.editProperties = @{kBorderWidthProperty: @(1), kBorderColorProperty: (id)UIColor.grayColor.CGColor, @"placeholderText": @"thsi is placer holder text!", @"placeholderTextColor": UIColor.redColor, kTextColorProperty: UIColor.purpleColor};
 //    alert.txtField.keyboardType = UIKeyboardTypeNumberPad;
-    alert.txtField.returnKeyType = UIReturnKeyDone;
+//    alert.txtField.returnKeyType = UIReturnKeyDone;
+//    alert.txtView.placeholderText = @"place holder ....";
+//    alert.txtView.placeholderTextColor = UIColor.redColor;
+    alert.txtView.returnKeyType = UIReturnKeyNext;
     [alert show];
 }
 - (void)showPass

@@ -1,20 +1,26 @@
 PODS:
   - Masonry (1.1.0)
   - Reveal-SDK (20)
+  - YYKit (1.0.9):
+    - YYKit/no-arc (= 1.0.9)
+  - YYKit/no-arc (1.0.9)
 
 DEPENDENCIES:
   - Masonry
   - Reveal-SDK
+  - YYKit
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Masonry
     - Reveal-SDK
+    - YYKit
 
 SPEC CHECKSUMS:
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   Reveal-SDK: 43206a57f575632fd304e85385cc259b5d359e32
+  YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 70a9f9e83998b8623871d22a60a8a98e45313376
+PODFILE CHECKSUM: 73678b8045d76763be11139688b1759b7d0dcdbb
 
 COCOAPODS: 1.6.0.beta.2

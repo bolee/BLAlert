@@ -6,6 +6,7 @@
 //  Copyright © 2018 Lee. All rights reserved.
 //
 
+#import <YYKit/YYKit.h>
 #import "BLConfirmAlert.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -16,7 +17,7 @@ typedef NS_ENUM(NSInteger, BLEditType) {
 
 @interface BLEditAlert : BLConfirmAlert
 @property (nonatomic, strong) UITextField * txtField;
-@property (nonatomic, strong) UITextView * txtView;
+@property (nonatomic, strong) YYTextView * txtView;
 
 @property (nonatomic, assign) BLEditType editType;
 @property (nonatomic, copy) NSString * editText;

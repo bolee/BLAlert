@@ -5,7 +5,7 @@
 //  Created by BoLee on 2018/12/21.
 //  Copyright © 2018 Lee. All rights reserved.
 //
-
+#import <IQKeyboardManager/IQKeyboardManager.h>
 #import "BLEditAlert.h"
 
 @implementation BLEditAlert
@@ -53,6 +53,7 @@
 - (YYTextView *)txtView {
     if (!_txtView) {
         _txtView = [[YYTextView alloc] init];
+        [[IQKeyboardManager sharedManager] registerTextFieldViewClass:[YYTextView class] didBeginEditingNotificationName:YYTextViewTextDidBeginEditingNotification didEndEditingNotificationName:YYTextViewTextDidEndEditingNotification];
     }
     return _txtView;
 }

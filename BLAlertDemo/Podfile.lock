@@ -1,4 +1,5 @@
 PODS:
+  - IQKeyboardManager (6.2.0)
   - Masonry (1.1.0)
   - Reveal-SDK (20)
   - YYKit (1.0.9):
@@ -6,21 +7,24 @@ PODS:
   - YYKit/no-arc (1.0.9)
 
 DEPENDENCIES:
+  - IQKeyboardManager
   - Masonry
   - Reveal-SDK
   - YYKit
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - IQKeyboardManager
     - Masonry
     - Reveal-SDK
     - YYKit
 
 SPEC CHECKSUMS:
+  IQKeyboardManager: 6194101620b73af5e67900b8f89707a99de0b804
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   Reveal-SDK: 43206a57f575632fd304e85385cc259b5d359e32
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 73678b8045d76763be11139688b1759b7d0dcdbb
+PODFILE CHECKSUM: b56e510dcd975abf3de9426b6226c88490454276
 
 COCOAPODS: 1.6.0.beta.2

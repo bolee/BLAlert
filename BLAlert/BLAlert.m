@@ -43,17 +43,17 @@ CGFloat const kContainPaddingRight = 15;
 
 @implementation BLAlert
 
-- (instancetype)initWithConfiguration:(NSDictionary *)confiure
-{
-    self = [super init];
-    if (self) {
-        [self initParams];
-        for (NSString * key in confiure) {
-            [self setValue:confiure[key] forKeyOrPath:key];
-        }
-    }
-    return self;
-}
+//- (instancetype)initWithConfiguration:(NSDictionary *)confiure
+//{
+//    self = [super init];
+//    if (self) {
+//        [self initParams];
+//        for (NSString * key in confiure) {
+//            [self setValue:confiure[key] forKeyOrPath:key];
+//        }
+//    }
+//    return self;
+//}
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -346,6 +346,11 @@ CGFloat const kContainPaddingRight = 15;
 }
 
 #pragma mark - setter&getter
+- (void)setConfigure:(NSDictionary *)configure {
+    for (NSString * key in configure) {
+        [self setValue:configure[key] forKeyPath:key];
+    }
+}
 - (UIWindow *)blWindow
 {
     if (!_blWindow) {

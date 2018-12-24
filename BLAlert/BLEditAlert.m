@@ -35,9 +35,11 @@
 
 #pragma mark - getter&setter
 - (void)setEditProperties:(NSDictionary *)editProperties {
+    BLLog(@"SetEdit....");
     for (NSString * key in editProperties) {
         if (BLEditTypeTextField == self.editType) {
             [self.txtField setValue:editProperties[key] forKeyOrPath:key];
+            BLLog(@"key:%@===value:%@", key, editProperties[key]);
         } else {
             [self.txtView setValue:editProperties[key] forKeyOrPath:key];
         }

@@ -131,10 +131,14 @@
     return showButton;
 }
 - (void)showEdit {
-    BLEditAlert * alert = [[BLEditAlert alloc] initWithConfiguration:@{@"containView.backgroundColor": UIColor.brownColor}];
+    BLEditAlert * alert = [[BLEditAlert alloc] init];//WithConfiguration:
+  alert.configure = @{@"containView.backgroundColor": UIColor.brownColor, @"editProperties": @{kBorderWidthProperty: @(1), kBorderColorProperty: (id)UIColor.grayColor.CGColor, /*@"placeholderText": @"thsi is placer holder text!", @"placeholderTextColor": UIColor.redColor, kTextColorProperty: UIColor.purpleColor*/}};
 //    [alert setValue:UIColor.brownColor forKeyPath:@"containView.backgroundColor"];
-    alert.editType = BLEditTypeTextView;
-    alert.editProperties = @{kBorderWidthProperty: @(1), kBorderColorProperty: (id)UIColor.grayColor.CGColor, @"placeholderText": @"thsi is placer holder text!", @"placeholderTextColor": UIColor.redColor, kTextColorProperty: UIColor.purpleColor};
+//    alert.configure = @{@"containView.backgroundColor": UIColor.brownColor, [@"txtView." stringByAppendingString: kBorderWidthProperty]: @(1), [@"txtView." stringByAppendingString: kBorderColorProperty]: (id)UIColor.grayColor.CGColor, @"txtView.placeholderText": @"thsi is placer holder text!", @"txtView.placeholderTextColor": UIColor.redColor, [@"txtView." stringByAppendingString: kTextColorProperty]: UIColor.purpleColor};
+//    alert.editType = BLEditTypeTextView;
+//    alert.editProperties = @{kBorderWidthProperty: @(1), kBorderColorProperty: (id)UIColor.grayColor.CGColor, /*@"placeholderText": @"thsi is placer holder text!", @"placeholderTextColor": UIColor.redColor, kTextColorProperty: UIColor.purpleColor*/};
+//    alert.configure = @{@"containView.backgroundColor": UIColor.brownColor, @"editProperties": @{kBorderWidthProperty: @(1), kBorderColorProperty: (id)UIColor.redColor.CGColor, /*@"placeholderText": @"thsi is placer holder text!", @"placeholderTextColor": UIColor.redColor, kTextColorProperty: UIColor.purpleColor*/}};
+
 //    alert.txtField.keyboardType = UIKeyboardTypeNumberPad;
 //    alert.txtField.returnKeyType = UIReturnKeyDone;
 //    alert.txtView.placeholderText = @"place holder ....";

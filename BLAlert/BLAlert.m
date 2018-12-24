@@ -269,6 +269,9 @@ CGFloat const kContainPaddingRight = 15;
             self.prevWindow = nil;
         }
         [[NSNotificationCenter defaultCenter] removeObserver:self name:kDismissNotification object:nil];
+        if (self.dismissComplete) {
+            self.dismissComplete();
+        }
     }];
 }
 

@@ -21,12 +21,12 @@ typedef NS_ENUM(NSInteger, ButtonType) {
     ButtonTypeCustom    =   0,
 };
 
-typedef BOOL(^ButtonClickBlock)(UIButton * button, ButtonType type);
+typedef BOOL(^BLButtonClickBlock)(UIButton * button, ButtonType type);
 
 @interface BLConfirmAlert : BLAlert
 @property (nonatomic, assign) BOOL hiddenTitle;
 @property (nonatomic, assign) BOOL hiddenCancel;
-@property (nonatomic, copy) ButtonClickBlock buttonResponse;
+@property (nonatomic, copy) BLButtonClickBlock buttonResponse;
 
 @property (nonatomic, strong) NSDictionary * titleProperties;
 @property (nonatomic, strong) NSDictionary * titleLineProperties;

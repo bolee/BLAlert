@@ -39,6 +39,7 @@ CGFloat const kContainPaddingRight = 15;
 @property (nonatomic, strong) UIViewController * presentViewController; //will show current vc,not new window
 @property (nonatomic, strong, readwrite) UIView *containView;
 @property (nonatomic, strong, readwrite) UIView *customView;
+@property (nonatomic, strong) NSDictionary * configures;
 @end
 
 @implementation BLAlert
@@ -48,9 +49,7 @@ CGFloat const kContainPaddingRight = 15;
     self = [super init];
     if (self) {
         [self initParams];
-        for (NSString * key in confiure) {
-            [self setValue:confiure[key] forKeyOrPath:key];
-        }
+        self.configures = confiure;
     }
     return self;
 }
@@ -82,8 +81,10 @@ CGFloat const kContainPaddingRight = 15;
     self.containPaddingLeft = kContainPaddingLeft;
     self.containPaddingRight = kContainPaddingRight;
     self.containHeight = kBLScreenHeight / 3.0;
-    self.alpha = 1;
-    self.backgroundColor = UIColor.clearColor;
+
+    // WARN: if set will perform viewDidLoad
+//    self.alpha = 1;
+//    self.backgroundColor = UIColor.clearColor;
 }
 
 - (void)viewDidLoad
@@ -92,10 +93,10 @@ CGFloat const kContainPaddingRight = 15;
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.5];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismiss) name:kDismissNotification object:nil];
-    [self.view addSubview:self.containView];
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismiss)];
     tapGesture.delegate = self;
     [self.view addGestureRecognizer:tapGesture];
+    [self.view addSubview:self.containView];
 }
 
 - (void)layoutView
@@ -222,11 +223,7 @@ CGFloat const kContainPaddingRight = 15;
     [self.viewController addChildViewController:self];
     [self.viewController.view addSubview:self.view];
     [self.blWindow makeKeyAndVisible];
-
-    // blur background view
-//    UIVisualEffectView * efView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
-//    efView.frame = self.view.bounds;
-//    [self.view insertSubview:efView belowSubview:self.containView];
+    [self buildConfigures];
 }
 - (void)showWithController:(UIViewController *)controller {
     if (!controller) {
@@ -236,6 +233,13 @@ CGFloat const kContainPaddingRight = 15;
         self.presentViewController = controller;
         self.modalPresentationStyle = UIModalPresentationOverFullScreen;
         [controller presentViewController:self animated:YES completion:nil];
+        [self buildConfigures];
+    }
+}
+
+- (void)buildConfigures {
+    for (NSString * key in self.configures) {
+        [self setValue:self.configures[key] forKeyOrPath:key];
     }
 }
 
@@ -348,11 +352,11 @@ CGFloat const kContainPaddingRight = 15;
 }
 
 #pragma mark - setter&getter
-- (void)setConfigure:(NSDictionary *)configure {
-    for (NSString * key in configure) {
-        [self setValue:configure[key] forKeyPath:key];
-    }
-}
+//- (void)setConfigure:(NSDictionary *)configure {
+//    for (NSString * key in configure) {
+//        [self setValue:configure[key] forKeyPath:key];
+//    }
+//}
 - (UIWindow *)blWindow
 {
     if (!_blWindow) {

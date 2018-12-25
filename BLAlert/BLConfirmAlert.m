@@ -60,6 +60,7 @@ CGFloat const kLineHeight = 1;
         [self.containView addSubview:self.buttonLineLabel];
     }
 }
+
 - (void)layoutView {
     [super layoutView];
     if (!self.hiddenTitle) {                                                                                                                                                                  

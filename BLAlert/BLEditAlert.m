@@ -7,9 +7,20 @@
 //
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import "BLEditAlert.h"
+@interface BLEditAlert()
+@property (nonatomic, assign) BLEditType editType;
+@end
 
 @implementation BLEditAlert
 
+- (instancetype)initWithType:(BLEditType)type withConfigure:(NSDictionary *)configure
+{
+    self = [super initWithConfiguration:configure];
+    if (self) {
+        self.editType = type;
+    }
+    return self;
+}
 - (void)initParams {
     [super initParams];
     self.editType = BLEditTypeTextField;
@@ -35,19 +46,19 @@
 
 #pragma mark - getter&setter
 - (void)setEditProperties:(NSDictionary *)editProperties {
-    BLLog(@"SetEdit....");
     for (NSString * key in editProperties) {
         if (BLEditTypeTextField == self.editType) {
             [self.txtField setValue:editProperties[key] forKeyOrPath:key];
-            BLLog(@"key:%@===value:%@", key, editProperties[key]);
         } else {
             [self.txtView setValue:editProperties[key] forKeyOrPath:key];
         }
     }
+    _editProperties = editProperties;
 }
 - (UITextField *)txtField {
     if (!_txtField) {
         _txtField = [[UITextField alloc] init];
+        BLLog(@"field:%@", _txtField);
     }
     return _txtField;
 }

@@ -152,8 +152,9 @@
 //    alert.txtView.returnKeyType = UIReturnKeyNext;
     alert.dismissWhenTouchBakcgound = NO;
     [alert show];
+    __weak typeof(BLEditAlert) * weakEdit = alert;
     alert.dismissComplete = ^{
-        BLLog(@"disssmissssssssss");
+        BLLog(@"disssmissssssssss:%@", weakEdit.editText);
     };
 
 }

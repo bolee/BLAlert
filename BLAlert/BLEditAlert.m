@@ -70,4 +70,10 @@
     }
     return _txtView;
 }
+- (NSString *)editText {
+    if (BLEditTypeTextView == self.editType) {
+        return self.txtView.text;
+    }
+    return self.txtField.text;
+}
 @end

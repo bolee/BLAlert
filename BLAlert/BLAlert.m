@@ -218,22 +218,22 @@ CGFloat const kContainPaddingRight = 15;
 #pragma mark - response
 - (void)show
 {
+    [self buildConfigures];
     [self layoutView];
     self.prevWindow = [UIApplication sharedApplication].keyWindow;
     [self.viewController addChildViewController:self];
     [self.viewController.view addSubview:self.view];
     [self.blWindow makeKeyAndVisible];
-    [self buildConfigures];
 }
 - (void)showWithController:(UIViewController *)controller {
     if (!controller) {
         [self show];
     } else {
+        [self buildConfigures];
         [self layoutView];
         self.presentViewController = controller;
         self.modalPresentationStyle = UIModalPresentationOverFullScreen;
         [controller presentViewController:self animated:YES completion:nil];
-        [self buildConfigures];
     }
 }
 
@@ -352,11 +352,6 @@ CGFloat const kContainPaddingRight = 15;
 }
 
 #pragma mark - setter&getter
-//- (void)setConfigure:(NSDictionary *)configure {
-//    for (NSString * key in configure) {
-//        [self setValue:configure[key] forKeyPath:key];
-//    }
-//}
 - (UIWindow *)blWindow
 {
     if (!_blWindow) {
@@ -412,7 +407,7 @@ CGFloat const kContainPaddingRight = 15;
 
 - (void)setAlpha:(CGFloat)alpha
 {
-    self.view.backgroundColor = [self.view.backgroundColor colorWithAlphaComponent:alpha];
+    self.view.backgroundColor = [self.backgroundColor colorWithAlphaComponent:alpha];
     _alpha = alpha;
 }
 

@@ -132,6 +132,7 @@
 }
 - (void)showEdit {
     NSDictionary * conf = @{@"containView.backgroundColor": UIColor.brownColor,
+                            @"containHeight": @(200),
                             @"editProperties": @{kBorderWidthProperty: @(1), kBorderColorProperty: (id)UIColor.grayColor.CGColor, @"backgroundColor": [UIColor redColor]},
                             @"titleProperties": @{kTextFontProperty: [UIFont systemFontOfSize:16], kTextColorProperty: [UIColor colorWithHexString:@"55555C"], kTextProperty: @"Tips is HERE"},
                             kBackgroundColorProperty: UIColor.redColor,

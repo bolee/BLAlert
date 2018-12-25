@@ -78,6 +78,7 @@ typedef void(^Completention)(void);
 @property (nonatomic, assign) CGFloat containPaddingLeft;
 @property (nonatomic, assign) CGFloat containPaddingRight;
 @property (nonatomic, copy) Completention dismissComplete;
+@property (nonatomic, assign) BOOL dismissWhenTouchBakcgound;
 
 - (instancetype)initWithConfiguration:(NSDictionary *)confiure;
 - (void)initParams;

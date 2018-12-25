@@ -81,6 +81,7 @@ CGFloat const kContainPaddingRight = 15;
     self.containPaddingLeft = kContainPaddingLeft;
     self.containPaddingRight = kContainPaddingRight;
     self.containHeight = kBLScreenHeight / 3.0;
+    self.dismissWhenTouchBakcgound = YES;
 
     // WARN: if set will perform viewDidLoad
 //    self.alpha = 1;
@@ -93,7 +94,7 @@ CGFloat const kContainPaddingRight = 15;
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.5];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismiss) name:kDismissNotification object:nil];
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismiss)];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchDismiss)];
     tapGesture.delegate = self;
     [self.view addGestureRecognizer:tapGesture];
     [self.view addSubview:self.containView];
@@ -242,7 +243,11 @@ CGFloat const kContainPaddingRight = 15;
         [self setValue:self.configures[key] forKeyOrPath:key];
     }
 }
-
+- (void)touchDismiss {
+    if (self.dismissWhenTouchBakcgound) {
+        [self dismiss];
+    }
+}
 - (void)dismiss
 {
     [self.view endEditing:YES];

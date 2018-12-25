@@ -150,6 +150,7 @@
 //    alert.txtView.placeholderText = @"place holder ....";
 //    alert.txtView.placeholderTextColor = UIColor.redColor;
 //    alert.txtView.returnKeyType = UIReturnKeyNext;
+    alert.dismissWhenTouchBakcgound = NO;
     [alert show];
     alert.dismissComplete = ^{
         BLLog(@"disssmissssssssss");

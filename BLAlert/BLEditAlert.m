@@ -23,7 +23,6 @@
 }
 - (void)initParams {
     [super initParams];
-    self.editType = BLEditTypeTextField;
     self.txtHeight = 44;
     self.containHeight = kTitleSubmitHeight + BL_ADAPTATION(kContainPaddingTop) + BL_ADAPTATION(kContainPaddingBottom) + self.txtHeight;
 }
@@ -58,7 +57,6 @@
 - (UITextField *)txtField {
     if (!_txtField) {
         _txtField = [[UITextField alloc] init];
-        BLLog(@"field:%@", _txtField);
     }
     return _txtField;
 }

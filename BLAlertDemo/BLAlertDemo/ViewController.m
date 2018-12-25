@@ -137,7 +137,7 @@
                             @"titleProperties": @{kTextFontProperty: [UIFont systemFontOfSize:16], kTextColorProperty: [UIColor colorWithHexString:@"55555C"], kTextProperty: @"Tips is HERE"},
                             kBackgroundColorProperty: UIColor.redColor,
                             kAlphaProperty: @(0.5)};
-    BLEditAlert * alert = [[BLEditAlert alloc] initWithType:BLEditTypeTextField withConfigure:conf];//WithConfiguration:
+    BLEditAlert * alert = [[BLEditAlert alloc] initWithType:BLEditTypeTextView withConfigure:conf];//WithConfiguration:
 //    alert.configure = @{@"containView.backgroundColor": UIColor.brownColor, @"editProperties": @{kBorderWidthProperty: @(1), kBorderColorProperty: (id)UIColor.grayColor.CGColor, @"backgroundColor": [UIColor redColor] /*@"placeholderText": @"thsi is placer holder text!", @"placeholderTextColor": UIColor.redColor, kTextColorProperty: UIColor.purpleColor*/}};
 //    [alert setValue:UIColor.brownColor forKeyPath:@"containView.backgroundColor"];
 //    alert.configure = @{@"containView.backgroundColor": UIColor.brownColor, [@"txtView." stringByAppendingString: kBorderWidthProperty]: @(1), [@"txtView." stringByAppendingString: kBorderColorProperty]: (id)UIColor.grayColor.CGColor, @"txtView.placeholderText": @"thsi is placer holder text!", @"txtView.placeholderTextColor": UIColor.redColor, [@"txtView." stringByAppendingString: kTextColorProperty]: UIColor.purpleColor};

@@ -219,12 +219,14 @@ CGFloat const kContainPaddingRight = 15;
 #pragma mark - response
 - (void)show
 {
-    [self buildConfigures];
-    [self layoutView];
-    self.prevWindow = [UIApplication sharedApplication].keyWindow;
-    [self.viewController addChildViewController:self];
-    [self.viewController.view addSubview:self.view];
-    [self.blWindow makeKeyAndVisible];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self buildConfigures];
+        [self layoutView];
+        self.prevWindow = [UIApplication sharedApplication].keyWindow;
+        [self.viewController addChildViewController:self];
+        [self.viewController.view addSubview:self.view];
+        [self.blWindow makeKeyAndVisible];
+    });
 }
 - (void)showWithController:(UIViewController *)controller {
     if (!controller) {

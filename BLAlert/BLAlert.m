@@ -43,17 +43,17 @@ CGFloat const kContainPaddingRight = 15;
 
 @implementation BLAlert
 
-//- (instancetype)initWithConfiguration:(NSDictionary *)confiure
-//{
-//    self = [super init];
-//    if (self) {
-//        [self initParams];
-//        for (NSString * key in confiure) {
-//            [self setValue:confiure[key] forKeyOrPath:key];
-//        }
-//    }
-//    return self;
-//}
+- (instancetype)initWithConfiguration:(NSDictionary *)confiure
+{
+    self = [super init];
+    if (self) {
+        [self initParams];
+        for (NSString * key in confiure) {
+            [self setValue:confiure[key] forKeyOrPath:key];
+        }
+    }
+    return self;
+}
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -82,6 +82,8 @@ CGFloat const kContainPaddingRight = 15;
     self.containPaddingLeft = kContainPaddingLeft;
     self.containPaddingRight = kContainPaddingRight;
     self.containHeight = kBLScreenHeight / 3.0;
+    self.alpha = 1;
+    self.backgroundColor = UIColor.clearColor;
 }
 
 - (void)viewDidLoad
@@ -400,14 +402,14 @@ CGFloat const kContainPaddingRight = 15;
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor
 {
-    self.view.backgroundColor = backgroundColor;
+    self.view.backgroundColor = [backgroundColor colorWithAlphaComponent:self.alpha];
+    _backgroundColor = backgroundColor;
 }
 
 - (void)setAlpha:(CGFloat)alpha
 {
-//    self.view.alpha = alpha;
-    //not affect child view alpha
     self.view.backgroundColor = [self.view.backgroundColor colorWithAlphaComponent:alpha];
+    _alpha = alpha;
 }
 
 @end

@@ -11,8 +11,11 @@
 #import "BLEditAlert.h"
 #import "ChildViewController.h"
 
-@interface ViewController ()
+@interface ViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITextField * txtFd;
+@property (nonatomic, strong) UITableView *tblView;
+@property (nonatomic, strong) NSArray * dataSource;
+
 @end
 
 @implementation ViewController
@@ -24,12 +27,50 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    self.dataSource = @[@"alert", @"confirm", @"passwd", @"edit"];
+    self.tblView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    [self.view addSubview:self.tblView];
+    self.tblView.delegate = self;
+    self.tblView.dataSource = self;
+    [self.tblView registerClass:UITableViewCell.class forCellReuseIdentifier:@"cell"];
+}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.dataSource.count;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    return cell;
+}
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    cell.textLabel.text = [self.dataSource objectAtIndex:indexPath.row];
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    switch (indexPath.row) {
+        case 0:
+            [self showAlert:nil];
+            break;
+        case 1:
+            [self showConfirm:nil];
+            break;
+        case 2:
+            [self showPass];
+            break;
+        case 3:
+            [self showEdit];
+            break;
+        default:
+            break;
+    }
+}
+- (void)showButton {
 
     self.txtFd = [[UITextField alloc] init];
     [self.view addSubview:self.txtFd];
     self.txtFd.backgroundColor = UIColor.blueColor;
     self.txtFd.frame = CGRectMake(170, 100, 150, 44);
-
 //    unsigned int outCount = 0;
 //    Method * meths = class_copyMethodList([UITextField class], &outCount);
 //    for (int i = 0; i < outCount; i++) {

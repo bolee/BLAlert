@@ -154,7 +154,10 @@ CGFloat const kContainPaddingRight = 15;
 #pragma mark -- ShowAnimation
 - (void)showAnimationNone
 {
-    self.containView.center = self.view.center;
+//    self.containView.center = self.view.center;
+    [self.containView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(self.view);
+    }];
 }
 
 - (void)showAnimationFadeIn
@@ -219,14 +222,12 @@ CGFloat const kContainPaddingRight = 15;
 #pragma mark - response
 - (void)show
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self buildConfigures];
-        [self layoutView];
-        self.prevWindow = [UIApplication sharedApplication].keyWindow;
-        [self.viewController addChildViewController:self];
-        [self.viewController.view addSubview:self.view];
-        [self.blWindow makeKeyAndVisible];
-    });
+    [self buildConfigures];
+    [self layoutView];
+    self.prevWindow = [UIApplication sharedApplication].keyWindow;
+    [self.viewController addChildViewController:self];
+    [self.viewController.view addSubview:self.view];
+    [self.blWindow makeKeyAndVisible];
 }
 - (void)showWithController:(UIViewController *)controller {
     if (!controller) {

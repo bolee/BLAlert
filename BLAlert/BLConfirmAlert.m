@@ -16,7 +16,7 @@ CGFloat const kLineHeight = 1;
 @interface BLConfirmAlert ()
 @property (nonatomic, strong) UILabel * titleLabel;
 @property (nonatomic, strong) UILabel * titleLineLabel;
-@property (nonatomic, strong) UILabel * infoLabel;
+@property (nonatomic, strong) UITextView * infoLabel;
 @property (nonatomic, strong) UILabel * infoLineLabel;
 @property (nonatomic, strong) UIButton * cancelButton;
 @property (nonatomic, strong) UIButton * submitButton;
@@ -133,6 +133,13 @@ CGFloat const kLineHeight = 1;
                 make.bottom.equalTo(self.infoLineLabel.mas_top).offset(-BL_ADAPTATION(self.containPaddingBottom));
             }];
         }
+        // if content too long, must enable textView scrollable
+        if (height > kBLScreenHeight * 2.0 / 3.0) {
+            height = kBLScreenHeight * 2.0 / 3.0;
+            self.infoLabel.scrollEnabled = YES;
+        } else {
+            self.infoLabel.scrollEnabled = NO;
+        }
         [self.containView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.view).offset(BL_ADAPTATION(self.leftMargin) );
             make.right.equalTo(self.view).offset(-BL_ADAPTATION(self.rightMargin));
@@ -145,6 +152,7 @@ CGFloat const kLineHeight = 1;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 #pragma mark -- response
 - (void)setCustomView:(UIView *)customView {
     [super setCustomView:customView];
@@ -173,7 +181,6 @@ CGFloat const kLineHeight = 1;
         [self dismiss];
     }
 }
-
 #pragma mark -- setter&getter
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
@@ -193,14 +200,20 @@ CGFloat const kLineHeight = 1;
     }
     return _titleLineLabel;
 }
-- (UILabel *)infoLabel {
+- (UITextView *)infoLabel {
     if (!_infoLabel) {
-        _infoLabel = [[UILabel alloc] init];
-        _infoLabel.numberOfLines = 0;
+        _infoLabel = [[UITextView alloc] init];
+        _infoLabel.editable = NO;
+        _infoLabel.scrollEnabled = NO;
+        _infoLabel.backgroundColor = UIColor.clearColor;
+        _infoLabel.showsVerticalScrollIndicator = NO;
+        _infoLabel.showsHorizontalScrollIndicator = NO;
         _infoLabel.textAlignment = NSTextAlignmentLeft;
         _infoLabel.font = [UIFont systemFontOfSize:14];
         _infoLabel.textColor = UIColorFromRGB(0xC8D3DE);
-        _infoLabel.text = @"需要确认信息才可以进行操作";
+        _infoLabel.text = @"";// @"需要确认信息才可以进行操作";
+        _infoLabel.textContainerInset = UIEdgeInsetsZero;
+        _infoLabel.textContainer.lineFragmentPadding = 0;
     }
     return _infoLabel;
 }
@@ -238,21 +251,25 @@ CGFloat const kLineHeight = 1;
     for (NSString * key in titleProperties) {
         [self.titleLabel setValue:titleProperties[key] forKeyOrPath:key];
     }
+    _titleProperties = titleProperties;
 }
 - (void)setTitleLineProperties:(NSDictionary *)titleLineProperties {
     for (NSString * key in titleLineProperties) {
         [self.titleLineLabel setValue:titleLineProperties[key] forKeyOrPath:key];
     }
+    _titleLineProperties = titleLineProperties;
 }
 - (void)setInfoProperties:(NSDictionary *)infoProperties {
     for (NSString * key in infoProperties) {
         [self.infoLabel setValue:infoProperties[key] forKeyOrPath:key];
     }
+    _infoProperties = infoProperties;
 }
 - (void)setInfoLineProperties:(NSDictionary *)infoLineProperties {
     for (NSString * key in infoLineProperties) {
         [self.infoLineLabel setValue:infoLineProperties[key] forKeyOrPath:key];
     }
+    _infoLineProperties = infoLineProperties;
 }
 - (void)setCancelButtonProperties:(NSDictionary *)cancelButtonProperties {
     for (NSString * key in cancelButtonProperties) {
@@ -266,6 +283,7 @@ CGFloat const kLineHeight = 1;
             [self.cancelButton setValue:cancelButtonProperties[key] forKeyOrPath:key];
         }
     }
+    _cancelButtonProperties = cancelButtonProperties;
 }
 - (void)setSubmitButtonProperties:(NSDictionary *)submitButtonProperties {
     for (NSString * key in submitButtonProperties) {
@@ -279,10 +297,12 @@ CGFloat const kLineHeight = 1;
             [self.submitButton setValue:submitButtonProperties[key] forKeyOrPath:key];
         }
     }
+    _submitButtonProperties = submitButtonProperties;
 }
 - (void)setButtonLineProperties:(NSDictionary *)buttonLineProperties {
     for (NSString * key in buttonLineProperties) {
         [self.buttonLineLabel setValue:buttonLineProperties[key] forKeyOrPath:key];
     }
+    _buttonLineProperties = buttonLineProperties;
 }
 @end

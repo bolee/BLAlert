@@ -246,7 +246,9 @@
     alert.containViewProperties = @{ kBackgroundColorProperty: UIColorFromRGB(0x262C54), kAlphaProperty: @(0.9), kBorderColorProperty: (id)(UIColor.blueColor.CGColor), kBorderWidthProperty: @(2) };
     alert.titleProperties = @{ kTextProperty: @"提示", kTextColorProperty: UIColor.whiteColor, kTextFontProperty: [UIFont systemFontOfSize:16] };
     alert.titleLineProperties = @{ kBackgroundColorProperty: UIColorFromRGB(0x333A67) };
-    alert.infoProperties = @{ kTextProperty: @"这是信息内容.这是信息内容.这是信息内容.", kTextColorProperty: UIColor.purpleColor, kTextFontProperty: [UIFont systemFontOfSize:19], kTextAligmentProperty: @(NSTextAlignmentCenter) };
+    NSString * text = @"一.上下班时间\n技术岗（产品、设计、前后端、底层），正常上班时间是9:30；有加班2小时以上的，可以10:30到；如果有特殊情况熬夜通宵的，不做限制，否则就算迟到了。\n二.关于打卡\n如果忘记打卡，可以在48小时内，由部门主管签字确认，向HR提交补登申请。\n\n刚刚我也私聊了几位需要特别注意的同事，一日之计在于晨，希望大家调整好作息时间，按时上班，积极工作。如果忘记打卡，48小时内及时补交申请，否则就是跟钱过不去啦。希望大家2019年新气象[抱拳],一.上下班时间\n技术岗（产品、设计、前后端、底层），正常上班时间是9:30；有加班2小时以上的，可以10:30到；如果有特殊情况熬夜通宵的，不做限制，否则就算迟到了。\n二.关于打卡\n如果忘记打卡，可以在48小时内，由部门主管签字确认，向HR提交补登申请。\n\n刚刚我也私聊了几位需要特别注意的同事，一日之计在于晨，希望大家调整好作息时间，按时上班，积极工作。如果忘记打卡，48小时内及时补交申请，否则就是跟钱过不去啦。希望大家2019年新气象[抱拳],一.上下班时间\n技术岗（产品、设计、前后端、底层），正常上班时间是9:30；有加班2小时以上的，可以10:30到；如果有特殊情况熬夜通宵的，不做限制，否则就算迟到了。\n二.关于打卡\n如果忘记打卡，可以在48小时内，由部门主管签字确认，向HR提交补登申请。\n\n刚刚我也私聊了几位需要特别注意的同事，一日之计在于晨，希望大家调整好作息时间，按时上班，积极工作。如果忘记打卡，48小时内及时补交申请，否则就是跟钱过不去啦。希望大家2019年新气象[抱拳]";
+    text = @"一.上下班时间\n二.关于打卡";
+    alert.infoProperties = @{ kTextProperty: text, kTextColorProperty: UIColor.purpleColor, kTextFontProperty: [UIFont systemFontOfSize:19], kTextAligmentProperty: @(NSTextAlignmentLeft) };
 //    alert.infoProperties = @{kAttributeTextProperty: [[NSAttributedString alloc] initWithString:@"这是信息内容.这是信息内容.这是信息内容." attributes:@{NSFontAttributeName: [UIFont systemFontOfSize:19], NSForegroundColorAttributeName: UIColor.yellowColor}], kTextAligmentProperty: @(NSTextAlignmentCenter)};
 
     alert.infoLineProperties = @{ kBackgroundColorProperty: UIColorFromRGB(0x333A67) };
@@ -270,7 +272,9 @@
     alert.showAnimation = index;
     alert.hiddenAnimation = index;
     index++;
-    [alert show];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [alert show];
+    });
 }
 
 - (void)navChild:(UIViewController *)vc withAlert:(BLConfirmAlert *)alert

@@ -154,10 +154,9 @@ CGFloat const kContainPaddingRight = 15;
 #pragma mark -- ShowAnimation
 - (void)showAnimationNone
 {
-//    self.containView.center = self.view.center;
-    [self.containView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.view);
-    }];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.containView.center = self.view.center;
+    });
 }
 
 - (void)showAnimationFadeIn
@@ -165,14 +164,16 @@ CGFloat const kContainPaddingRight = 15;
     self.containView.alpha = 0;
     self.containView.center = self.view.center;
     [UIView animateWithDuration:kAnimationShowDuration animations:^{
-        self.containView.alpha = 1;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.containView.alpha = 1;
+        });
     }];
 }
 
 - (void)showAnimationSlideInFromTop
 {
     [UIView animateWithDuration:kAnimationShowDuration animations:^{
-        self.containView.center = self.view.center;
+        [self showAnimationNone];
     }];
 }
 
@@ -180,7 +181,7 @@ CGFloat const kContainPaddingRight = 15;
 {
     self.containView.center = CGPointMake(self.view.center.x, self.view.center.y * 3);
     [UIView animateWithDuration:kAnimationShowDuration animations:^{
-        self.containView.center = self.view.center;
+        [self showAnimationNone];
     }];
 }
 
@@ -188,7 +189,7 @@ CGFloat const kContainPaddingRight = 15;
 {
     self.containView.center = CGPointMake(-self.view.center.x, self.view.center.y);
     [UIView animateWithDuration:kAnimationShowDuration animations:^{
-        self.containView.center = self.view.center;
+        [self showAnimationNone];
     }];
 }
 
@@ -196,7 +197,7 @@ CGFloat const kContainPaddingRight = 15;
 {
     self.containView.center = CGPointMake(self.view.center.x * 3, self.view.center.y);
     [UIView animateWithDuration:kAnimationShowDuration animations:^{
-        self.containView.center = self.view.center;
+        [self showAnimationNone];
     }];
 }
 
@@ -206,7 +207,9 @@ CGFloat const kContainPaddingRight = 15;
     CGRect rect = self.containView.frame;
     self.containView.frame = CGRectMake(self.view.center.x, self.view.center.y, 1, 1);
     [UIView animateWithDuration:kAnimationShowDuration animations:^{
-        self.containView.frame = rect;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.containView.frame = rect;
+        });
     }];
 }
 

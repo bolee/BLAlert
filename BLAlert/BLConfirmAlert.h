@@ -13,6 +13,7 @@
 extern CGFloat const kTitleSubmitHeight;
 extern CGFloat const kTitleHeight;
 extern CGFloat const kSubmitHeight;
+extern CGFloat const kLineHeight;
 
 typedef NS_ENUM(NSInteger, ButtonType) {
     ButtonTypeSubmit    =   1,
@@ -20,12 +21,12 @@ typedef NS_ENUM(NSInteger, ButtonType) {
     ButtonTypeCustom    =   0,
 };
 
-typedef BOOL(^ButtonClickBlock)(UIButton * button, ButtonType type);
+typedef BOOL(^BLButtonClickBlock)(UIButton * button, ButtonType type);
 
 @interface BLConfirmAlert : BLAlert
 @property (nonatomic, assign) BOOL hiddenTitle;
 @property (nonatomic, assign) BOOL hiddenCancel;
-@property (nonatomic, copy) ButtonClickBlock buttonResponse;
+@property (nonatomic, copy) BLButtonClickBlock buttonResponse;
 
 @property (nonatomic, strong) NSDictionary * titleProperties;
 @property (nonatomic, strong) NSDictionary * titleLineProperties;
@@ -36,5 +37,5 @@ typedef BOOL(^ButtonClickBlock)(UIButton * button, ButtonType type);
 @property (nonatomic, strong) NSDictionary * buttonLineProperties;
 @property (nonatomic, assign) CGFloat titleHeight;
 @property (nonatomic, assign) CGFloat submitHeight;
-
+@property (nonatomic, assign) CGFloat lineHeight;
 @end

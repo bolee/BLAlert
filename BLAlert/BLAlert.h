@@ -6,11 +6,11 @@
 //  Copyright © 2018 Lee. All rights reserved.
 //
 // 弹出框界面
-
 #import <UIKit/UIKit.h>
 #import <Masonry/Masonry.h>
 #import "BLMacros.h"
 #import "UIView+Constraint.h"
+#import "NSObject+KVC.h"
 
 NS_ASSUME_NONNULL_BEGIN
 // KVC
@@ -58,6 +58,9 @@ typedef NS_ENUM(NSInteger, BLAlertHiddenAnimation) {
     BLAlertHiddenAnimationSlideToCenter,
 };
 
+//
+typedef void(^Completention)(void);
+
 @interface BLAlert : UIViewController
 @property (nonatomic, strong, readonly) UIView * containView;
 @property (nonatomic, assign) CGFloat containHeight;
@@ -74,12 +77,15 @@ typedef NS_ENUM(NSInteger, BLAlertHiddenAnimation) {
 @property (nonatomic, assign) CGFloat containPaddingBottom;
 @property (nonatomic, assign) CGFloat containPaddingLeft;
 @property (nonatomic, assign) CGFloat containPaddingRight;
+@property (nonatomic, copy) Completention dismissComplete;
+@property (nonatomic, assign) BOOL dismissWhenTouchBakcgound;
 
-
+- (instancetype)initWithConfiguration:(NSDictionary *)confiure;
 - (void)initParams;
 - (void)setCustomView:(UIView *)customView;
 - (void)layoutView;
 - (void)show;
+- (void)showWithController:(UIViewController *)controller;
 - (void)dismiss;
 - (UIViewController *)rootViewController;
 

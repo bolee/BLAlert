@@ -6,20 +6,19 @@
 //  Copyright © 2018 Lee. All rights reserved.
 //
 #import "BLAlert.h"
+NSString *const kAlphaProperty = @"alpha";
+NSString *const kBackgroundColorProperty = @"backgroundColor";
+NSString *const kCornerRadiusProperty = @"layer.cornerRadius";
+NSString *const kBorderWidthProperty = @"layer.borderWidth";
+NSString *const kBorderColorProperty = @"layer.borderColor";
+NSString *const kTextProperty = @"text";
+NSString *const kTextColorProperty = @"textColor";
+NSString *const kTextFontProperty = @"font";
+NSString *const kTextAligmentProperty = @"textAlignment";
+NSString *const kAttributeTextProperty = @"attributedText";
+NSString *const kNumberOfLinesProperty = @"numberOfLines";
 
-NSString * const kAlphaProperty = @"alpha";
-NSString * const kBackgroundColorProperty = @"backgroundColor";
-NSString * const kCornerRadiusProperty = @"layer.cornerRadius";
-NSString * const kBorderWidthProperty = @"layer.borderWidth";
-NSString * const kBorderColorProperty = @"layer.borderColor";
-NSString * const kTextProperty = @"text";
-NSString * const kTextColorProperty = @"textColor";
-NSString * const kTextFontProperty = @"font";
-NSString * const kTextAligmentProperty = @"textAlignment";
-NSString * const kAttributeTextProperty = @"attributedText";
-NSString * const kNumberOfLinesProperty = @"numberOfLines";
-
-NSString * const kDismissNotification = @"blalert.dismiss.notification";
+NSString *const kDismissNotification = @"blalert.dismiss.notification";
 
 CGFloat const kAnimationShowDuration = 0.2;
 CGFloat const kAnimationHiddenDuration = 0.3;
@@ -33,17 +32,29 @@ CGFloat const kContainPaddingLeft = 15;
 CGFloat const kContainPaddingRight = 15;
 
 @interface BLAlert ()<UIGestureRecognizerDelegate>
-@property (nonatomic, strong) UIWindow * prevWindow;
-@property (nonatomic, strong) UIWindow * blWindow;
-@property (nonatomic, strong) UINavigationController * navController;
-@property (nonatomic, strong) UIViewController * viewController;
-@property (nonatomic, strong, readwrite) UIView * containView;
-@property (nonatomic, strong, readwrite) UIView * customView;
+@property (nonatomic, strong) UIWindow *prevWindow;
+@property (nonatomic, strong) UIWindow *blWindow;
+@property (nonatomic, strong) UINavigationController *navController;
+@property (nonatomic, strong) UIViewController *viewController;
+@property (nonatomic, strong) UIViewController * presentViewController; //will show current vc,not new window
+@property (nonatomic, strong, readwrite) UIView *containView;
+@property (nonatomic, strong, readwrite) UIView *customView;
+@property (nonatomic, strong) NSDictionary * configures;
 @end
 
 @implementation BLAlert
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+- (instancetype)initWithConfiguration:(NSDictionary *)confiure
+{
+    self = [super init];
+    if (self) {
+        [self initParams];
+        self.configures = confiure;
+    }
+    return self;
+}
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         [self initParams];
@@ -60,7 +71,9 @@ CGFloat const kContainPaddingRight = 15;
     return self;
 }
 
-- (void)initParams {
+- (void)initParams
+{
+    self.needNavigation = NO;
     self.leftMargin = kLeftMargin;
     self.rightMargin = kRightMargin;
     self.containPaddingTop = kContainPaddingTop;
@@ -68,24 +81,32 @@ CGFloat const kContainPaddingRight = 15;
     self.containPaddingLeft = kContainPaddingLeft;
     self.containPaddingRight = kContainPaddingRight;
     self.containHeight = kBLScreenHeight / 3.0;
+    self.dismissWhenTouchBakcgound = YES;
+
+    // WARN: if set will perform viewDidLoad
+//    self.alpha = 1;
+//    self.backgroundColor = UIColor.clearColor;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.5];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismiss) name:kDismissNotification object:nil];
-    [self.view addSubview:self.containView];
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismiss)];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touchDismiss)];
     tapGesture.delegate = self;
     [self.view addGestureRecognizer:tapGesture];
+    [self.view addSubview:self.containView];
 }
-- (void)layoutView {
+
+- (void)layoutView
+{
     if (self.containView.constraintBlock) {
         [self.containView mas_makeConstraints:self.containView.constraintBlock];
     } else {
         [self.containView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.view).offset( BL_ADAPTATION(self.leftMargin) );
+            make.left.equalTo(self.view).offset(BL_ADAPTATION(self.leftMargin) );
             make.right.equalTo(self.view).offset(-BL_ADAPTATION(self.rightMargin));
             make.centerY.equalTo(self.view).offset(-kBLScreenHeight);
             make.height.mas_equalTo(self.containHeight);
@@ -101,7 +122,9 @@ CGFloat const kContainPaddingRight = 15;
         }
     }
 }
-- (void)viewDidAppear:(BOOL)animated {
+
+- (void)viewDidAppear:(BOOL)animated
+{
     [super viewDidAppear:animated];
     switch (self.showAnimation) {
         case BLAlertShowAnimationFadeIn:
@@ -129,74 +152,111 @@ CGFloat const kContainPaddingRight = 15;
 }
 
 #pragma mark -- ShowAnimation
-- (void)showAnimationNone{
-    self.containView.center = self.view.center;
+- (void)showAnimationNone
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.containView.center = self.view.center;
+    });
 }
-- (void)showAnimationFadeIn {
+
+- (void)showAnimationFadeIn
+{
     self.containView.alpha = 0;
     self.containView.center = self.view.center;
     [UIView animateWithDuration:kAnimationShowDuration animations:^{
-        self.containView.alpha = 1;
-    }];
-}
-- (void)showAnimationSlideInFromTop {
-    [UIView animateWithDuration:kAnimationShowDuration animations:^{
-        self.containView.center = self.view.center;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.containView.alpha = 1;
+        });
     }];
 }
 
-- (void)showAnimationSlideInFromBottom {
+- (void)showAnimationSlideInFromTop
+{
+    [UIView animateWithDuration:kAnimationShowDuration animations:^{
+        [self showAnimationNone];
+    }];
+}
+
+- (void)showAnimationSlideInFromBottom
+{
     self.containView.center = CGPointMake(self.view.center.x, self.view.center.y * 3);
     [UIView animateWithDuration:kAnimationShowDuration animations:^{
-        self.containView.center = self.view.center;
+        [self showAnimationNone];
     }];
 }
 
-- (void)showAnimationSlideInFromLeft {
+- (void)showAnimationSlideInFromLeft
+{
     self.containView.center = CGPointMake(-self.view.center.x, self.view.center.y);
     [UIView animateWithDuration:kAnimationShowDuration animations:^{
-        self.containView.center = self.view.center;
+        [self showAnimationNone];
     }];
 }
 
-- (void)showAnimationSlideInFromRight {
+- (void)showAnimationSlideInFromRight
+{
     self.containView.center = CGPointMake(self.view.center.x * 3, self.view.center.y);
     [UIView animateWithDuration:kAnimationShowDuration animations:^{
-        self.containView.center = self.view.center;
+        [self showAnimationNone];
     }];
 }
 
-- (void)showAnimationSlideInFromCenter {
+- (void)showAnimationSlideInFromCenter
+{
     self.containView.center = self.view.center;
     CGRect rect = self.containView.frame;
     self.containView.frame = CGRectMake(self.view.center.x, self.view.center.y, 1, 1);
     [UIView animateWithDuration:kAnimationShowDuration animations:^{
-        self.containView.frame = rect;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.containView.frame = rect;
+        });
     }];
 }
 
 #pragma mark -- UIGestureRecognizerDelegate
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
     if ([touch.view isDescendantOfView:self.containView]) {
         return NO;
     }
     return YES;
 }
+
 #pragma mark - response
-- (void)show {
+- (void)show
+{
+    [self buildConfigures];
     [self layoutView];
     self.prevWindow = [UIApplication sharedApplication].keyWindow;
     [self.viewController addChildViewController:self];
     [self.viewController.view addSubview:self.view];
     [self.blWindow makeKeyAndVisible];
-
-    // blur
-    UIVisualEffectView * efView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
-    efView.frame = self.view.bounds;
-    [self.view insertSubview:efView belowSubview:self.containView];
+}
+- (void)showWithController:(UIViewController *)controller {
+    if (!controller) {
+        [self show];
+    } else {
+        [self buildConfigures];
+        [self layoutView];
+        self.presentViewController = controller;
+        self.modalPresentationStyle = UIModalPresentationOverFullScreen;
+        [controller presentViewController:self animated:YES completion:nil];
+    }
 }
 
-- (void)dismiss {
+- (void)buildConfigures {
+    for (NSString * key in self.configures) {
+        [self setValue:self.configures[key] forKeyOrPath:key];
+    }
+}
+- (void)touchDismiss {
+    if (self.dismissWhenTouchBakcgound) {
+        [self dismiss];
+    }
+}
+- (void)dismiss
+{
+    [self.view endEditing:YES];
     switch (self.hiddenAnimation) {
         case BLAlertHiddenAnimationFadeOut:
             [self dismissAnimationFadOut];
@@ -223,64 +283,88 @@ CGFloat const kContainPaddingRight = 15;
 }
 
 #pragma mark -- dismiss animation
-- (void)dismissAnimationNone {
+- (void)dismissAnimationNone
+{
     [UIView animateWithDuration:kAnimationHiddenDuration animations:^{
         self.view.alpha = 0.0;
     } completion:^(BOOL finished) {
-        [self.view removeFromSuperview];
-        [self removeFromParentViewController];
-        [self.prevWindow makeKeyAndVisible];
-        self.prevWindow = nil;
+        if (self.presentViewController) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        } else {
+            [self.view removeFromSuperview];
+            [self removeFromParentViewController];
+            [self.prevWindow makeKeyAndVisible];
+            self.prevWindow = nil;
+        }
         [[NSNotificationCenter defaultCenter] removeObserver:self name:kDismissNotification object:nil];
+        if (self.dismissComplete) {
+            self.dismissComplete();
+        }
     }];
 }
-- (void)dismissAnimationFadOut {
+
+- (void)dismissAnimationFadOut
+{
     [UIView animateWithDuration:kAnimationShowDuration animations:^{
         self.containView.alpha = 0;
     }];
     [self dismissAnimationNone];
 }
-- (void)dismissAnimationToTop {
+
+- (void)dismissAnimationToTop
+{
     [UIView animateWithDuration:kAnimationShowDuration animations:^{
         self.containView.center = CGPointMake(self.view.center.x, -self.view.center.y);
     }];
     [self dismissAnimationNone];
 }
-- (void)dismissAnimationToBottom {
+
+- (void)dismissAnimationToBottom
+{
     [UIView animateWithDuration:kAnimationShowDuration animations:^{
         self.containView.center = CGPointMake(kBLScreenWidth / 2.0, kBLScreenHeight + self.containView.frame.size.height);
     }];
     [self dismissAnimationNone];
 }
-- (void)dismissAnimationToLeft {
+
+- (void)dismissAnimationToLeft
+{
     [UIView animateWithDuration:kAnimationShowDuration animations:^{
         self.containView.center = CGPointMake(-self.view.center.x, self.view.center.y);
     }];
     [self dismissAnimationNone];
 }
-- (void)dismissAnimationToRight {
+
+- (void)dismissAnimationToRight
+{
     [UIView animateWithDuration:kAnimationShowDuration animations:^{
         self.containView.center = CGPointMake(2 * self.view.center.x, self.view.center.y);
     }];
     [self dismissAnimationNone];
 }
-- (void)dismissAnimationToCenter {
+
+- (void)dismissAnimationToCenter
+{
     [UIView animateWithDuration:kAnimationShowDuration animations:^{
         self.containView.frame = CGRectMake(self.view.center.x, self.view.center.y, 1, 1);
     }];
     [self dismissAnimationNone];
 }
 
-- (void)setCustomView:(UIView *)customView {
+- (void)setCustomView:(UIView *)customView
+{
     _customView = customView;
     [self.containView addSubview:customView];
 }
-- (UIViewController *)rootViewController {
+
+- (UIViewController *)rootViewController
+{
     return self.viewController;
 }
 
 #pragma mark - setter&getter
-- (UIWindow *)blWindow {
+- (UIWindow *)blWindow
+{
     if (!_blWindow) {
         _blWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         _blWindow.windowLevel = UIWindowLevelAlert;
@@ -290,14 +374,17 @@ CGFloat const kContainPaddingRight = 15;
     }
     return _blWindow;
 }
-- (UIViewController *)viewController {
+
+- (UIViewController *)viewController
+{
     if (!_viewController) {
         _viewController = [[UIViewController alloc] init];
     }
     return _viewController;
 }
 
-- (UINavigationController *)navController {
+- (UINavigationController *)navController
+{
     if (!_navController) {
         _navController = [[UINavigationController alloc] initWithRootViewController:self.viewController];
         [_navController setNavigationBarHidden:YES animated:NO];
@@ -305,7 +392,8 @@ CGFloat const kContainPaddingRight = 15;
     return _navController;
 }
 
-- (UIView *)containView {
+- (UIView *)containView
+{
     if (!_containView) {
         _containView = [[UIView alloc] init];
         _containView.clipsToBounds = YES;
@@ -314,17 +402,24 @@ CGFloat const kContainPaddingRight = 15;
     }
     return _containView;
 }
-- (void)setContainViewProperties:(NSDictionary *)containViewProperties {
-    for (NSString * key in containViewProperties) {
-        [self.containView setValue:containViewProperties[key] forKey:key];
+
+- (void)setContainViewProperties:(NSDictionary *)containViewProperties
+{
+    for (NSString *key in containViewProperties) {
+        [self.containView setValue:containViewProperties[key] forKeyOrPath:key];
     }
 }
-- (void)setBackgroundColor:(UIColor *)backgroundColor {
-    self.view.backgroundColor = backgroundColor;
+
+- (void)setBackgroundColor:(UIColor *)backgroundColor
+{
+    self.view.backgroundColor = [backgroundColor colorWithAlphaComponent:self.alpha];
+    _backgroundColor = backgroundColor;
 }
-- (void)setAlpha:(CGFloat)alpha {
-//    self.view.alpha = alpha;
-    //not affect child view alpha
-    self.view.backgroundColor = [self.view.backgroundColor colorWithAlphaComponent:alpha];
+
+- (void)setAlpha:(CGFloat)alpha
+{
+    self.view.backgroundColor = [self.backgroundColor colorWithAlphaComponent:alpha];
+    _alpha = alpha;
 }
+
 @end

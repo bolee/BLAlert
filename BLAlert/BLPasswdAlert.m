@@ -104,5 +104,14 @@
     }
     return _securTextField;
 }
-
+- (void)setSecuryTitleProperties:(NSDictionary *)securyTitleProperties {
+    for (NSString * key in securyTitleProperties) {
+        [self.securTitleLabel setValue:securyTitleProperties[key] forKeyOrPath:key];
+    }
+}
+- (void)setSecuryTextFieldProperties:(NSDictionary *)securyTextFieldProperties {
+    for (NSString * key in securyTextFieldProperties) {
+        [self.securTextField setValue:securyTextFieldProperties[key] forKeyOrPath:key];
+    }
+}
 @end

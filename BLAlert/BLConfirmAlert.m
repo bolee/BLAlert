@@ -11,11 +11,12 @@
 CGFloat const kTitleHeight = 50;
 CGFloat const kSubmitHeight = 44;
 CGFloat const kTitleSubmitHeight = kTitleHeight + kSubmitHeight;
+CGFloat const kLineHeight = 1;
 
 @interface BLConfirmAlert ()
 @property (nonatomic, strong) UILabel * titleLabel;
 @property (nonatomic, strong) UILabel * titleLineLabel;
-@property (nonatomic, strong) UILabel * infoLabel;
+@property (nonatomic, strong) UITextView * infoLabel;
 @property (nonatomic, strong) UILabel * infoLineLabel;
 @property (nonatomic, strong) UIButton * cancelButton;
 @property (nonatomic, strong) UIButton * submitButton;
@@ -42,6 +43,7 @@ CGFloat const kTitleSubmitHeight = kTitleHeight + kSubmitHeight;
     [super initParams];
     self.titleHeight = kTitleHeight;
     self.submitHeight = kSubmitHeight;
+    self.lineHeight = kLineHeight;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -58,6 +60,7 @@ CGFloat const kTitleSubmitHeight = kTitleHeight + kSubmitHeight;
         [self.containView addSubview:self.buttonLineLabel];
     }
 }
+
 - (void)layoutView {
     [super layoutView];
     if (!self.hiddenTitle) {                                                                                                                                                                  
@@ -68,7 +71,7 @@ CGFloat const kTitleSubmitHeight = kTitleHeight + kSubmitHeight;
         [self.titleLineLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.equalTo(self.containView);
             make.top.equalTo(self.titleLabel.mas_bottom);
-            make.height.mas_equalTo(1);
+            make.height.mas_equalTo(self.lineHeight);
         }];
     }
 
@@ -77,7 +80,7 @@ CGFloat const kTitleSubmitHeight = kTitleHeight + kSubmitHeight;
             make.bottom.equalTo(self.containView.mas_bottom);
             make.height.mas_equalTo(self.submitHeight);
             make.centerX.equalTo(self.containView);
-            make.width.mas_equalTo(1);
+            make.width.mas_equalTo(self.lineHeight);
         }];
         [self.cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.bottom.equalTo(self.containView);
@@ -94,7 +97,7 @@ CGFloat const kTitleSubmitHeight = kTitleHeight + kSubmitHeight;
     [self.infoLineLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.containView);
         make.bottom.equalTo(self.submitButton.mas_top);
-        make.height.mas_equalTo(1);
+        make.height.mas_equalTo(self.lineHeight);
     }];
     if (self.customView) {
         if (self.customView.constraintBlock) {
@@ -119,14 +122,23 @@ CGFloat const kTitleSubmitHeight = kTitleHeight + kSubmitHeight;
                 make.bottom.equalTo(self.infoLineLabel.mas_top);
             }];
         } else {
-            CGRect rect = [self.infoLabel.text boundingRectWithSize:CGSizeMake(kBLScreenWidth -  BL_ADAPTATION(self.leftMargin + self.rightMargin + self.containPaddingLeft + self.containPaddingRight), CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: self.infoLabel.font} context:nil];
-            height += self.containPaddingTop + self.containPaddingBottom + ceilf(rect.size.height) + 2;
+            // must add separate
+            CGFloat margin = BL_ADAPTATION(self.leftMargin) + BL_ADAPTATION(self.rightMargin) + BL_ADAPTATION(self.containPaddingLeft) + BL_ADAPTATION(self.containPaddingRight);
+            CGRect rect = [self.infoLabel.text boundingRectWithSize:CGSizeMake(kBLScreenWidth - margin, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName: self.infoLabel.font} context:nil];
+            height += BL_ADAPTATION(self.containPaddingTop) + BL_ADAPTATION(self.containPaddingBottom) + ceilf(rect.size.height) + 2 * self.lineHeight;
             [self.infoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(self.containView).offset(BL_ADAPTATION(self.containPaddingLeft));
                 make.right.equalTo(self.containView).offset(-BL_ADAPTATION(self.containPaddingRight));
                 make.top.equalTo(self.hiddenTitle ? self.containView.mas_top : self.titleLineLabel.mas_bottom).offset(BL_ADAPTATION(self.containPaddingTop));
                 make.bottom.equalTo(self.infoLineLabel.mas_top).offset(-BL_ADAPTATION(self.containPaddingBottom));
             }];
+        }
+        // if content too long, must enable textView scrollable
+        if (height > kBLScreenHeight * 2.0 / 3.0) {
+            height = kBLScreenHeight * 2.0 / 3.0;
+            self.infoLabel.scrollEnabled = YES;
+        } else {
+            self.infoLabel.scrollEnabled = NO;
         }
         [self.containView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.view).offset(BL_ADAPTATION(self.leftMargin) );
@@ -140,6 +152,7 @@ CGFloat const kTitleSubmitHeight = kTitleHeight + kSubmitHeight;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 #pragma mark -- response
 - (void)setCustomView:(UIView *)customView {
     [super setCustomView:customView];
@@ -168,7 +181,6 @@ CGFloat const kTitleSubmitHeight = kTitleHeight + kSubmitHeight;
         [self dismiss];
     }
 }
-
 #pragma mark -- setter&getter
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
@@ -188,14 +200,20 @@ CGFloat const kTitleSubmitHeight = kTitleHeight + kSubmitHeight;
     }
     return _titleLineLabel;
 }
-- (UILabel *)infoLabel {
+- (UITextView *)infoLabel {
     if (!_infoLabel) {
-        _infoLabel = [[UILabel alloc] init];
-        _infoLabel.numberOfLines = 0;
+        _infoLabel = [[UITextView alloc] init];
+        _infoLabel.editable = NO;
+        _infoLabel.scrollEnabled = NO;
+        _infoLabel.backgroundColor = UIColor.clearColor;
+        _infoLabel.showsVerticalScrollIndicator = NO;
+        _infoLabel.showsHorizontalScrollIndicator = NO;
         _infoLabel.textAlignment = NSTextAlignmentLeft;
         _infoLabel.font = [UIFont systemFontOfSize:14];
         _infoLabel.textColor = UIColorFromRGB(0xC8D3DE);
-        _infoLabel.text = @"需要确认信息才可以进行操作";
+        _infoLabel.text = @"";// @"需要确认信息才可以进行操作";
+        _infoLabel.textContainerInset = UIEdgeInsetsZero;
+        _infoLabel.textContainer.lineFragmentPadding = 0;
     }
     return _infoLabel;
 }
@@ -231,23 +249,27 @@ CGFloat const kTitleSubmitHeight = kTitleHeight + kSubmitHeight;
 }
 - (void)setTitleProperties:(NSDictionary *)titleProperties {
     for (NSString * key in titleProperties) {
-        [self.titleLabel setValue:titleProperties[key] forKey:key];
+        [self.titleLabel setValue:titleProperties[key] forKeyOrPath:key];
     }
+    _titleProperties = titleProperties;
 }
 - (void)setTitleLineProperties:(NSDictionary *)titleLineProperties {
     for (NSString * key in titleLineProperties) {
-        [self.titleLineLabel setValue:titleLineProperties[key] forKey:key];
+        [self.titleLineLabel setValue:titleLineProperties[key] forKeyOrPath:key];
     }
+    _titleLineProperties = titleLineProperties;
 }
 - (void)setInfoProperties:(NSDictionary *)infoProperties {
     for (NSString * key in infoProperties) {
-        [self.infoLabel setValue:infoProperties[key] forKey:key];
+        [self.infoLabel setValue:infoProperties[key] forKeyOrPath:key];
     }
+    _infoProperties = infoProperties;
 }
 - (void)setInfoLineProperties:(NSDictionary *)infoLineProperties {
     for (NSString * key in infoLineProperties) {
-        [self.infoLineLabel setValue:infoLineProperties[key] forKey:key];
+        [self.infoLineLabel setValue:infoLineProperties[key] forKeyOrPath:key];
     }
+    _infoLineProperties = infoLineProperties;
 }
 - (void)setCancelButtonProperties:(NSDictionary *)cancelButtonProperties {
     for (NSString * key in cancelButtonProperties) {
@@ -258,9 +280,10 @@ CGFloat const kTitleSubmitHeight = kTitleHeight + kSubmitHeight;
         } else if ([key isEqualToString:kTextFontProperty]) {
             self.cancelButton.titleLabel.font = cancelButtonProperties[key];
         } else {
-            [self.cancelButton setValue:cancelButtonProperties[key] forKey:key];
+            [self.cancelButton setValue:cancelButtonProperties[key] forKeyOrPath:key];
         }
     }
+    _cancelButtonProperties = cancelButtonProperties;
 }
 - (void)setSubmitButtonProperties:(NSDictionary *)submitButtonProperties {
     for (NSString * key in submitButtonProperties) {
@@ -271,13 +294,15 @@ CGFloat const kTitleSubmitHeight = kTitleHeight + kSubmitHeight;
         } else if ([key isEqualToString:kTextFontProperty]) {
             self.submitButton.titleLabel.font = submitButtonProperties[key];
         } else {
-            [self.submitButton setValue:submitButtonProperties[key] forKey:key];
+            [self.submitButton setValue:submitButtonProperties[key] forKeyOrPath:key];
         }
     }
+    _submitButtonProperties = submitButtonProperties;
 }
 - (void)setButtonLineProperties:(NSDictionary *)buttonLineProperties {
     for (NSString * key in buttonLineProperties) {
-        [self.buttonLineLabel setValue:buttonLineProperties[key] forKey:key];
+        [self.buttonLineLabel setValue:buttonLineProperties[key] forKeyOrPath:key];
     }
+    _buttonLineProperties = buttonLineProperties;
 }
 @end

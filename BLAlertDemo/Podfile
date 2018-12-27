@@ -7,7 +7,8 @@ target 'BLAlertDemo' do
 
   # Pods for BLAlertDemo
   pod 'Masonry'
-
+  pod 'YYKit'
+  pod 'IQKeyboardManager'
   pod 'Reveal-SDK', :configurations => ['Debug']
 
   target 'BLAlertDemoTests' do

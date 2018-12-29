@@ -155,7 +155,11 @@ CGFloat const kContainPaddingRight = 15;
 - (void)showAnimationNone
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.containView.center = self.view.center;
+//        self.containView.center = self.view.center;
+        [self.containView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(self.view);
+        }];
+        [self.containView layoutIfNeeded];
     });
 }
 

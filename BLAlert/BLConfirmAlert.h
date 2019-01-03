@@ -38,4 +38,8 @@ typedef BOOL(^BLButtonClickBlock)(UIButton * button, ButtonType type);
 @property (nonatomic, assign) CGFloat titleHeight;
 @property (nonatomic, assign) CGFloat submitHeight;
 @property (nonatomic, assign) CGFloat lineHeight;
+@property (nonatomic, assign) CGFloat titleMarginTop;
+@property (nonatomic, assign) CGFloat titleMarginBottom;
+@property (nonatomic, assign) CGFloat titleMarginLeft;
+@property (nonatomic, assign) CGFloat titleMarginRight;
 @end

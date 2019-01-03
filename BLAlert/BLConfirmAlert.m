@@ -67,7 +67,7 @@ CGFloat const kLineHeight = 1;
         [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self.containView).offset(self.titleMarginTop);
             make.left.equalTo(self.containView).offset(BL_ADAPTATION(self.titleMarginLeft));
-            make.right.equalTo(self.containView).offset(-BL_ADAPTATION(self.titleMarginBottom));
+            make.right.equalTo(self.containView).offset(-BL_ADAPTATION(self.titleMarginRight));
             make.height.mas_equalTo(self.titleHeight);
         }];
         [self.titleLineLabel mas_makeConstraints:^(MASConstraintMaker *make) {

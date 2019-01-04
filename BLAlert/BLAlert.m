@@ -243,8 +243,8 @@ CGFloat const kContainPaddingRight = 15;
         [self buildConfigures];
         [self layoutView];
         self.presentViewController = controller;
-        self.modalPresentationStyle = UIModalPresentationOverFullScreen;
-        [controller presentViewController:self animated:NO completion:nil];
+        [controller addChildViewController:self];
+        [controller.view addSubview:self.view];
     }
 }
 
@@ -293,7 +293,8 @@ CGFloat const kContainPaddingRight = 15;
         self.view.alpha = 0.0;
     } completion:^(BOOL finished) {
         if (self.presentViewController) {
-            [self dismissViewControllerAnimated:YES completion:nil];
+            [self.view removeFromSuperview];
+            [self removeFromParentViewController];
         } else {
             [self.view removeFromSuperview];
             [self removeFromParentViewController];

@@ -244,7 +244,7 @@ CGFloat const kContainPaddingRight = 15;
         [self layoutView];
         self.presentViewController = controller;
         self.modalPresentationStyle = UIModalPresentationOverFullScreen;
-        [controller presentViewController:self animated:YES completion:nil];
+        [controller presentViewController:self animated:NO completion:nil];
     }
 }
 
